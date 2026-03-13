@@ -1,0 +1,115 @@
+.single-team {
+  .post-content {
+    position: relative;
+    padding: rem-calc(40px 0);
+    min-height: 440px;
+    overflow: visible;
+
+    @media (width < 1200px) {
+      padding: rem-calc(60px 0);
+      min-height: 320px;
+    }
+
+    @media (1200px <= width <= 1440px) {
+      padding: rem-calc(60px 0);
+      padding-bottom: 0;
+      min-height: 400px;
+    }
+
+    @media (1440px < width < 1600px) {
+      padding: rem-calc(80px 0);
+      padding-bottom: 0;
+    }
+
+    @media (width > 1600px) {
+      padding: rem-calc(80px 0);
+      min-height: 480px;
+    }
+
+    @include media-breakpoint-down('md') {
+      padding-top: rem-calc(340px);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: solid 2px #C66F50;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: solid 4px #C66F50;
+    }
+
+    .content-column {
+      position: relative;
+      z-index: 10;
+
+      p {
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .profile-image-wrapper,
+  .second-image-wrapper {
+    position: absolute;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $charlie-color;
+      z-index: -1;
+      transform: scale(0.725) rotate(45deg);
+    }
+  }
+
+  .profile-image-wrapper {
+    width: 75%;
+    top: -120px;
+    left: 0;
+    z-index: 1;
+
+    @include media-breakpoint-down('md') {
+      top: -400px;
+      left: calc(50% - 220px);
+      width: 370px;
+    }
+  }
+
+  .second-image-wrapper {
+    width: 54%;
+    top: 40px;
+    right: 10px;
+    z-index: 10;
+
+    @include media-breakpoint-down('lg') {
+      width: 44%;
+    }
+
+    @include media-breakpoint-down('md') {
+      top: -260px;
+      right: unset;
+      left: calc(50% - 20px);
+      width: 200px;
+    }
+  }
+
+  .profile-image,
+  .second-image {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  .gallery {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

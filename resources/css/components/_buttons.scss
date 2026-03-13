@@ -1,0 +1,101 @@
+.btn {
+  &.btn-primary,
+  &.btn-secondary {
+    background: none;
+    border: 1px solid $white;
+    border-radius: 0;
+    padding: 15px;
+    font-size: rem-calc(21px);
+    line-height: 1.2381;
+    text-transform: uppercase;
+    font-weight: 700;
+
+    &:hover {
+      background: $white;
+      color: $color-blue;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &.btn-modal-close {
+    padding: 0;
+    position: absolute;
+    top: 60px;
+    right: 75px;
+    background: url("@images/btn-close.svg");
+    width: 22px;
+    height: 22px;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:hover {
+      opacity: 0.5;
+      border: none;
+    }
+  }
+
+  &.btn-primary {
+    width: 100%;
+    max-width: 290px;
+  }
+
+  &.btn-secondary {
+    border-color: $color-blue-medium;
+    color: $color-blue-medium;
+    width: 100%;
+    max-width: 473px;
+
+    .hover-icon {
+      display: none;
+    }
+
+    &:hover {
+      background-color: $color-blue-medium;
+      color: $white;
+
+      .hover-icon {
+        display: inline-block;
+      }
+
+      .rest-icon {
+        display: none;
+      }
+    }
+  }
+
+  &.btn-tertiary {
+    position: relative;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-weight: 700;
+    padding-top: 10px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 37px;
+      height: 2px;
+      background: $color-blue-sky;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      &::before {
+        width: 100%;
+        background: $color-blue;
+      }
+    }
+  }
+}

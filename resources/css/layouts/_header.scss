@@ -1,0 +1,122 @@
+header.sage-header {
+  position: relative;
+  z-index: 99;
+  border-bottom: 1px solid $color-blue-pale;
+
+  .logo-wrapper {
+    .site-logo {
+      height: 71px;
+    }
+  }
+
+  ul.navbar-nav {
+    flex-direction: row;
+
+    li.menu-item {
+      display: inline-block;
+      position: relative;
+      margin-right: 90px;
+
+      @include media-breakpoint-up(lg) {
+        margin-right: 60px;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a {
+        display: block;
+        position: relative;
+        text-decoration: none;
+        color: $color-blue;
+        padding: 23.5px 5px;
+
+        &::after {
+          border: none;
+          height: 7px;
+          width: 10px;
+          background-image: url("@images/down-arrow-small.svg");
+          background-size: contain;
+          background-position: center center;
+          background-repeat: no-repeat;
+          margin-left: 12px;
+          vertical-align: middle;
+          transform: rotate(180deg);
+          transition: all 0.3s ease;
+        }
+
+        &.show {
+          &::after {
+            transform: rotate(0);
+          }
+        }
+
+        &.dropdown-toggle {
+          &:focus-visible {
+            outline: none;
+            box-shadow: none;
+          }
+        }
+      }
+
+      .dropdown-menu {
+        background-color: $white;
+        bottom: 0;
+        border-radius: 0;
+        border: none;
+        box-shadow: 0 0 6px rgba($black, 16%);
+        top: 14px !important;
+        padding: 0;
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: calc(100% + 5px);
+          height: 16px;
+          top: -17px;
+          left: -2.5px;
+          background-color: white;
+        }
+
+        li {
+          padding-left: 30px;
+          padding-right: 30px;
+          margin: 0;
+          position: relative;
+
+          a {
+            color: $color-blue;
+
+            &:hover,
+            &:active,
+            &:focus {
+              background-color: $white;
+              color: $color-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+#mobile_menu {
+  height: 100vh;
+  overflow-y: auto;
+
+  ul {
+    @extend .list-unstyled;
+
+    li {
+      padding-left: 10px;
+
+      a {
+        text-decoration: none;
+        color: $color-blue;
+        @extend .sage-font-md;
+      }
+    }
+  }
+}

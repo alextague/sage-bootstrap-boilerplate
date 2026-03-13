@@ -1,0 +1,58 @@
+$grid-columns: 24;
+$grid-gutter-width: 15px;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px,
+  xl: 1440px,
+  xxl: 1600px
+);
+
+$container-max-widths: (
+  sm: 738px,
+  md: 962px,
+  lg: 1170px,
+  xl: 1410px,
+  xxl: 1570px
+);
+
+// PROJECT COLORS
+// Use descriptive appearance-based names: $color-{appearance} (e.g., $color-dark-blue, $color-gold)
+// Replace these placeholder values per project.
+$color-dark-blue: #1c3665;
+$color-blue: #2699fb;
+$color-blue-light: #7fc4fd;
+$color-blue-pale: #bce0fd;
+$color-blue-ice: #f1f9ff;
+$color-mid-blue: #1f5889;
+$color-blue-ghost: #ecf5fc;
+$color-blue-medium: #4f98f4;
+$color-blue-sky: #90c3f8;
+
+// COLORS
+// Add project-specific colors here as $color-{appearance}
+
+$white: white;
+$black: black;
+$error: red;
+
+$primary-font: "Open Sans";
+$secondary-font: "EB Garamond";
+
+// https://jonsuh.com/hamburgers/
+$hamburger-padding-x: 5px;
+$hamburger-padding-y: 5px;
+$hamburger-layer-width: 25px;
+$hamburger-layer-height: 3px;
+$hamburger-layer-spacing: 4px;
+$hamburger-layer-color: $black;
+$hamburger-layer-border-radius: 0;
+$hamburger-hover-opacity: 1;
+
+$hamburger-active-layer-color: $black;
+$hamburger-active-hover-opacity: $hamburger-hover-opacity;
+$hamburger-hover-use-filter: false;
+$hamburger-hover-filter: opacity(50%);
+$hamburger-active-hover-filter: $hamburger-hover-filter;
+$hamburger-types: (slider, slider-r);

@@ -1,0 +1,239 @@
+//------------------------------------------------//
+//------------------- BASE CSS -------------------//
+//------------------------------------------------//
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  overflow: hidden;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-family: $primary-font;
+  color: $color-blue;
+}
+
+.fa-sr-only,
+.fa-sr-only-focusable:not(:focus),
+.sr-only,
+.sr-only-focusable:not(:focus),
+.screen-reader-response {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+p {
+  font-family: $primary-font;
+  font-size: rem-calc(18px);
+  line-height: 1.44444;
+  margin-bottom: 20px;
+}
+
+// a:not(.btn) {
+//   &:hover {}
+// }
+
+// ol,
+// ul {
+//   li {}
+// }
+
+h1,
+.sage-h1,
+h2,
+.sage-h2,
+h3,
+.sage-h3 {
+  font-family: $secondary-font;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1,
+.sage-h1 {
+  font-size: rem-calc(75px);
+  line-height: 1;
+  margin-bottom: 40px;
+}
+
+h2,
+.sage-h2 {
+  font-size: rem-calc(55px);
+  line-height: 1;
+  margin-bottom: 35px;
+}
+
+h3,
+.sage-h3 {
+  font-size: rem-calc(24px);
+  line-height: 1.166667;
+  margin-bottom: 20px;
+}
+
+a {
+  &:hover {
+    color: inherit;
+  }
+}
+
+// h4,
+// .sage-h4 {}
+
+// h5,
+// .sage-h5 {}
+
+// h6,
+// .sage-h6 {}
+
+.sage-font-sm {
+  font-size: rem-calc(14px) !important;
+  line-height: 1.16667 !important;
+}
+
+.sage-font-md {
+  font-size: rem-calc(18px) !important;
+  line-height: 1.44444;
+}
+
+.sage-font-lg {
+  font-size: rem-calc(21px) !important;
+  line-height: 1.3333 !important;
+}
+
+.sage-font-xl {
+  font-size: rem-calc(24px) !important;
+  line-height: 1.16667 !important;
+}
+
+.sage-font-primary {
+  font-family: $primary-font !important;
+}
+
+.sage-font-secondary {
+  font-family: $secondary-font !important;
+}
+
+.fw-medium {
+  font-weight: 500 !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+.sage-ls-100 {
+  letter-spacing: 0.1em;
+}
+
+//------------------------------------------------//
+//-------------------- CUSTOM --------------------//
+//------------------------------------------------//
+
+.sage-bg-image {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.sage-cover-image {
+  object-fit: cover;
+  max-width: 100%;
+  height: 100%;
+}
+
+.sage-banner-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-position: center center;
+}
+
+.sage-truncate {
+  --sage-line-count: 2;
+
+  display: -webkit-box; /* stylelint-disable-line */
+  overflow: hidden;
+  -webkit-line-clamp: var(--sage-line-count);
+  -webkit-box-orient: vertical;
+}
+
+//------------------------------------------------//
+//--------------- WIREFRAME COLORS ---------------//
+//------------------------------------------------//
+
+.white-color {
+  color: $white;
+}
+
+.bg-color-white {
+  background-color: $white;
+}
+
+.black-color {
+  color: $black;
+}
+
+.bg-color-black {
+  background-color: $black;
+}
+
+.color-dark-blue {
+  color: $color-dark-blue;
+}
+
+.bg-color-dark-blue {
+  background-color: $color-dark-blue;
+}
+
+.color-blue {
+  color: $color-blue;
+}
+
+.bg-color-blue {
+  background-color: $color-blue;
+}
+
+.color-blue-light {
+  color: $color-blue-light;
+}
+
+.bg-color-blue-light {
+  background-color: $color-blue-light;
+}
+
+.color-blue-pale {
+  color: $color-blue-pale;
+}
+
+.bg-color-blue-pale {
+  background-color: $color-blue-pale;
+}
+
+.color-blue-ice {
+  color: $color-blue-ice;
+}
+
+.bg-color-blue-ice {
+  background-color: $color-blue-ice;
+}
+
+.color-mid-blue {
+  color: $color-mid-blue;
+}
+
+.bg-color-mid-blue {
+  background-color: $color-mid-blue;
+}

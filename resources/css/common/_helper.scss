@@ -1,0 +1,187 @@
+// PADDING & MARGIN CLASSES
+$start: 0;
+$end: 220;
+$offset: 5;
+$unit: "px";
+
+@mixin list-loop($className, $styleName) {
+  $i: 0;
+
+  @while $i <= $end {
+    @if $i >= $start {
+      #{$className + $i} {
+        #{$styleName}: #{$i + $unit} !important;
+      }
+    }
+    $i: $i + $offset;
+  }
+}
+
+@mixin list-loop-duo($className, $styleName, $styleNameDuo) {
+  $i: 0;
+
+  @while $i <= $end {
+    @if $i >= $start {
+      #{$className + $i} {
+        #{$styleName}: #{$i + $unit} !important;
+        #{$styleNameDuo}: #{$i + $unit} !important;
+      }
+    }
+    $i: $i + $offset;
+  }
+}
+
+.sage-mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@include list-loop(".sage-m-", "margin");
+@include list-loop(".sage-p-", "padding");
+@include list-loop-duo(".sage-mx-", "margin-left", "margin-right");
+@include list-loop-duo(".sage-px-", "padding-left", "padding-right");
+@include list-loop-duo(".sage-my-", "margin-top", "margin-bottom");
+@include list-loop-duo(".sage-py-", "padding-top", "padding-bottom");
+@include list-loop(".sage-pl-", "padding-left");
+@include list-loop(".sage-pr-", "padding-right");
+@include list-loop(".sage-pt-", "padding-top");
+@include list-loop(".sage-pb-", "padding-bottom");
+@include list-loop(".sage-ml-", "margin-left");
+@include list-loop(".sage-mr-", "margin-right");
+@include list-loop(".sage-mt-", "margin-top");
+@include list-loop(".sage-mb-", "margin-bottom");
+
+@media (width >= 768px) {
+  .sage-mx-sm-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @include list-loop(".sage-m-sm-", "margin");
+  @include list-loop(".sage-p-sm-", "padding");
+  @include list-loop-duo(".sage-mx-sm-", "margin-left", "margin-right");
+  @include list-loop-duo(".sage-px-sm-", "padding-left", "padding-right");
+  @include list-loop-duo(".sage-my-sm-", "margin-top", "margin-bottom");
+  @include list-loop-duo(".sage-py-sm-", "padding-top", "padding-bottom");
+  @include list-loop(".sage-pl-sm-", "padding-left");
+  @include list-loop(".sage-pr-sm-", "padding-right");
+  @include list-loop(".sage-pt-sm-", "padding-top");
+  @include list-loop(".sage-pb-sm-", "padding-bottom");
+  @include list-loop(".sage-ml-sm-", "margin-left");
+  @include list-loop(".sage-mr-sm-", "margin-right");
+  @include list-loop(".sage-mt-sm-", "margin-top");
+  @include list-loop(".sage-mb-sm-", "margin-bottom");
+}
+
+@media (width >= 992px) {
+  .sage-mx-md-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @include list-loop(".sage-m-md-", "margin");
+  @include list-loop(".sage-p-md-", "padding");
+  @include list-loop-duo(".sage-mx-md-", "margin-left", "margin-right");
+  @include list-loop-duo(".sage-px-md-", "padding-left", "padding-right");
+  @include list-loop-duo(".sage-my-md-", "margin-top", "margin-bottom");
+  @include list-loop-duo(".sage-py-md-", "padding-top", "padding-bottom");
+  @include list-loop(".sage-pl-md-", "padding-left");
+  @include list-loop(".sage-pr-md-", "padding-right");
+  @include list-loop(".sage-pt-md-", "padding-top");
+  @include list-loop(".sage-pb-md-", "padding-bottom");
+  @include list-loop(".sage-ml-md-", "margin-left");
+  @include list-loop(".sage-mr-md-", "margin-right");
+  @include list-loop(".sage-mt-md-", "margin-top");
+  @include list-loop(".sage-mb-md-", "margin-bottom");
+}
+
+@media (width >= 1200px) {
+  .sage-mx-lg-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @include list-loop(".sage-m-lg-", "margin");
+  @include list-loop(".sage-p-lg-", "padding");
+  @include list-loop-duo(".sage-mx-lg-", "margin-left", "margin-right");
+  @include list-loop-duo(".sage-px-lg-", "padding-left", "padding-right");
+  @include list-loop-duo(".sage-my-lg-", "margin-top", "margin-bottom");
+  @include list-loop-duo(".sage-py-lg-", "padding-top", "padding-bottom");
+  @include list-loop(".sage-pl-lg-", "padding-left");
+  @include list-loop(".sage-pr-lg-", "padding-right");
+  @include list-loop(".sage-pt-lg-", "padding-top");
+  @include list-loop(".sage-pb-lg-", "padding-bottom");
+  @include list-loop(".sage-ml-lg-", "margin-left");
+  @include list-loop(".sage-mr-lg-", "margin-right");
+  @include list-loop(".sage-mt-lg-", "margin-top");
+  @include list-loop(".sage-mb-lg-", "margin-bottom");
+}
+
+@media (width >= 1440px) {
+  .sage-mx-xl-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @include list-loop(".sage-m-xl-", "margin");
+  @include list-loop(".sage-p-xl-", "padding");
+  @include list-loop-duo(".sage-mx-xl-", "margin-left", "margin-right");
+  @include list-loop-duo(".sage-px-xl-", "padding-left", "padding-right");
+  @include list-loop-duo(".sage-my-xl-", "margin-top", "margin-bottom");
+  @include list-loop-duo(".sage-py-xl-", "padding-top", "padding-bottom");
+  @include list-loop(".sage-pl-xl-", "padding-left");
+  @include list-loop(".sage-pr-xl-", "padding-right");
+  @include list-loop(".sage-pt-xl-", "padding-top");
+  @include list-loop(".sage-pb-xl-", "padding-bottom");
+  @include list-loop(".sage-ml-xl-", "margin-left");
+  @include list-loop(".sage-mr-xl-", "margin-right");
+  @include list-loop(".sage-mt-xl-", "margin-top");
+  @include list-loop(".sage-mb-xl-", "margin-bottom");
+}
+
+// GUTTER CLASSES
+$g_start: 0;
+$g_end: 50;
+$g_offset: 5;
+$g_unit: "px";
+
+@mixin list-gutter($className) {
+  $i: 0;
+
+  @while $i <= $g_end {
+    @if $i >= $g_start {
+
+      #{"&" + $className + $i} {
+        margin-left: #{"-" + $i + $g_unit};
+        margin-right: #{"-" + $i + $g_unit};
+
+        > .col,
+        > [class*="col-"] {
+          padding-left: #{$i + $g_unit};
+          padding-right: #{$i + $g_unit};
+        }
+      }
+    }
+    $i: $i + $g_offset;
+  }
+}
+
+.row {
+  @include list-gutter(".sage-g-");
+
+  @media (width >= 768px) {
+    @include list-gutter(".sage-g-sm-");
+  }
+
+  @media (width >= 992px) {
+    @include list-gutter(".sage-g-md-");
+  }
+
+  @media (width >= 1200px) {
+    @include list-gutter(".sage-g-lg-");
+  }
+
+  @media (width >= 1440px) {
+    @include list-gutter(".sage-g-xl-");
+  }
+}

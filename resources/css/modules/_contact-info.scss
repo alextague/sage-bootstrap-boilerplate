@@ -1,0 +1,16 @@
+.contact-info {
+  .contact-info-column {
+    border-right: 1px solid $color-blue-light;
+
+    * {
+      word-break: break-word;
+    }
+
+    @include media-breakpoint-down(md) {
+      border-right: none;
+      border-top: 1px solid $color-blue-light;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+  }
+}

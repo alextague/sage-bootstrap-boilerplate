@@ -1,0 +1,156 @@
+//------------------------------------------------//
+//-------------------- SEARCH --------------------//
+//------------------------------------------------//
+
+.search-form {
+  @extend .row;
+}
+
+.search-form label {
+  @extend .mb-3;
+
+  font-weight: normal;
+}
+
+.search-form .search-field {
+  @extend .form-control;
+}
+
+.search-form .search-submit {
+  @extend .btn;
+  @extend .btn-secondary;
+}
+
+//------------------------------------------------//
+//---------------- GRAVITY FORMS -----------------//
+//------------------------------------------------//
+
+.gform_wrapper {
+  .gform_validation_errors {
+    @extend .alert;
+    @extend .alert-danger;
+
+    width: 100%;
+    flex: 1 0 auto;
+
+    h2 {
+      @extend .mb-0;
+    }
+  }
+
+  form {
+    margin-bottom: 0;
+
+    .gform_body {
+      .gform_fields {
+        grid-row-gap: 0;
+
+        .gfield {
+          @extend .mb-3;
+
+          .gfield_label {
+            @extend .form-label;
+
+            .gfield_required {
+              @extend .ps-1;
+
+              color: $error;
+            }
+          }
+
+          .ginput_container {
+            input[type="email"],
+            input[type="date"],
+            input[type="datetime"],
+            input[type="datetime-local"],
+            input[type="month"],
+            input[type="number"],
+            input[type="password"],
+            input[type="search"],
+            input[type="tel"],
+            input[type="text"],
+            input[type="time"],
+            input[type="week"],
+            input[type="url"],
+            select,
+            textarea {
+              @extend .form-control;
+
+              padding: 15px 25px !important;
+              border-color: $color-blue-pale !important;
+              color: $color-blue !important;
+              border-radius: 3px !important;
+
+              &:focus {
+                box-shadow: none;
+              }
+            }
+
+            &.ginput_container_select,
+            &.ginput_container_multiselect {
+              select {
+                @extend .form-select;
+              }
+            }
+
+            &.ginput_container_checkbox,
+            &.ginput_container_radio {
+              .gfield_checkbox,
+              .gfield_radio {
+                .gchoice {
+                  @extend .form-check;
+
+                  input[type="checkbox"],
+                  input[type="radio"] {
+                    @extend .form-check-input;
+                  }
+
+                  label {
+                    @extend .form-check-label;
+                  }
+                }
+              }
+            }
+          }
+
+          .gfield_description {
+            @extend .form-text;
+
+            &.validation_message {
+              color: $error;
+            }
+          }
+        }
+      }
+    }
+
+    .gform_footer {
+      padding: 0 !important;
+
+      .gform_button {
+        background: $color-blue;
+        border: none;
+        color: $white;
+        font-weight: 700;
+        text-transform: unset;
+        font-size: rem-calc(18px);
+        line-height: 1.44444;
+        margin: 0;
+        padding: 15px;
+        width: 100%;
+
+        &:hover {
+          background: $color-blue;
+          color: $white;
+        }
+
+        &:focus,
+        &:active,
+        &:focus:active {
+          box-shadow: none;
+          background: $color-blue !important;
+        }
+      }
+    }
+  }
+}

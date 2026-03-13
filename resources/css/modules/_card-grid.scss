@@ -1,0 +1,14 @@
+.card-grid {
+  .card {
+    .card-img-overlay {
+      a {
+        max-width: 60%;
+        overflow-wrap: normal;
+
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+  }
+}

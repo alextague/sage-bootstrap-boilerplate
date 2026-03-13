@@ -1,0 +1,43 @@
+.sage-footer {
+  .container {
+    .footer-top {
+      ul.navbar-nav {
+        flex-direction: row;
+
+        @include media-breakpoint-only(xs) {
+          justify-content: center;
+        }
+
+        li.menu-item {
+          display: inline-block;
+          position: relative;
+          margin-right: 55px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+
+          a {
+            display: block;
+            position: relative;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: $white;
+            font-size: rem-calc(14px);
+            line-height: 1.5;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+          }
+        }
+      }
+
+      border-bottom: 1px solid $white;
+    }
+
+    .footer-bottom {
+      .copyright-text {
+        color: rgba($white, 0.5);
+      }
+    }
+  }
+}

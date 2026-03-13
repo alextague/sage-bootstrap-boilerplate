@@ -1,0 +1,106 @@
+name: Deploy to WPEngine
+
+# ─────────────────────────────────────────────────────────────
+# PROJECT SETUP — set these in GitHub → Settings → Variables:
+#   THEME_SLUG          e.g. my-theme-name
+#   WPE_ENV_PRODUCTION  e.g. myclientprod
+#   WPE_ENV_STAGING     e.g. myclientstg
+#
+# And in GitHub → Settings → Secrets:
+#   WPE_SSHG_KEY_PRIVATE  (WPEngine Git Push SSH private key)
+# ─────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'npm'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4.10'
+          tools: composer
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Deploy to WPEngine Production
+        uses: wpengine/github-action-wpe-site-deploy@v3
+        with:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: ${{ vars.WPE_ENV_PRODUCTION }}
+          REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=stylelint.config.js --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+
+      - name: Rebuild Acorn cache
+        env:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: ${{ vars.WPE_ENV_PRODUCTION }}
+          THEME_SLUG: ${{ vars.THEME_SLUG }}
+        run: bash .github/scripts/post-deploy.sh
+
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'npm'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4.10'
+          tools: composer
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Deploy to WPEngine Staging
+        uses: wpengine/github-action-wpe-site-deploy@v3
+        with:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: ${{ vars.WPE_ENV_STAGING }}
+          REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=stylelint.config.js --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+
+      - name: Rebuild Acorn cache
+        env:
+          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
+          WPE_ENV: ${{ vars.WPE_ENV_STAGING }}
+          THEME_SLUG: ${{ vars.THEME_SLUG }}
+        run: bash .github/scripts/post-deploy.sh
