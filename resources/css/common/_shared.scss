@@ -1,0 +1,14 @@
+// Shared dependencies for lazy-loaded module SCSS files
+// Import this at the top of any module that's loaded via JS
+
+@use "sass:math";
+
+@import "fonts";
+@import "variables";
+@import "unit";
+@import "mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
