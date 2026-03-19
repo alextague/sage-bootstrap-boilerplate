@@ -91,7 +91,7 @@
   "require-dev": {
     "gotoandplay/gravityforms-composer-installer": "^2.3",
     "gravityforms/gravityforms": "*",
-    "wpengine/advanced-custom-fields-pro": "^6.0",
+    "wpengine/advanced-custom-fields-pro": "*",
     "deliciousbrains-plugin/wp-migrate-db-pro": "*",
     "deliciousbrains-plugin/wp-migrate-db-pro-cli": "*",
     "deliciousbrains-plugin/wp-migrate-db-pro-media-files": "*",
