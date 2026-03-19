@@ -29,26 +29,6 @@
   }
 }
 
-.background-image-header {
-  .background-container {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-  }
-
-  .container {
-    z-index: 1;
-
-    .content-wrapper {
-      .logo-image {
-        height: 100%;
-        max-width: 400px;
-        max-height: 140px;
-      }
-    }
-  }
-}
-
 .header-single {
   .background-container {
     position: absolute;
