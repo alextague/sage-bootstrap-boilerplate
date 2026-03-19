@@ -1,4 +1,4 @@
-<div class="container-fluid logo-grid sage-mb-md-100 sage-mb-50">
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module logo-grid {{ $module->custom_classes ? $module->custom_classes : 'sage-mb-md-100 sage-mb-50' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row text-center">
         <h2 class="offset-md-6 col-md-12 sage-mb-20">{!! $module->title !!}</h2>

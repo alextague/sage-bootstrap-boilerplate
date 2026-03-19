@@ -1,4 +1,4 @@
-<div class="container-fluid contact-form bg-color-bp-foxtrot sage-pt-100 sage-pb-md-55">
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module contact-form bg-color-bp-foxtrot {{ $module->custom_classes ? $module->custom_classes : 'sage-pt-100 sage-pb-md-55' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row">
       <div class="offset-md-1 offset-lg-2 col-md-10 col-lg-9 bg-color-white sage-p-45">

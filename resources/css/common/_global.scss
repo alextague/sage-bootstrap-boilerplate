@@ -150,8 +150,7 @@ a {
 
 .sage-cover-image {
   object-fit: cover;
-  max-width: 100%;
-  height: 100%;
+  width: 100%;
 }
 
 .sage-banner-image {
@@ -159,6 +158,9 @@ a {
   width: 100%;
   height: 100%;
   object-position: center center;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 .sage-truncate {

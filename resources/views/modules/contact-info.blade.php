@@ -1,4 +1,4 @@
-<div class="container-fluid contact-info sage-my-md-90 sage-my-45">
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module contact-info {{ $module->custom_classes ? $module->custom_classes : 'sage-my-md-90 sage-my-45' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row">
       <div class="offset-md-1 offset-xl-2 col-md-7 col-lg-6 col-xl-5 contact-info-column order-md-1 order-2">

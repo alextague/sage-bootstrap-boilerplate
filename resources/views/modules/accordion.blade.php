@@ -1,5 +1,5 @@
 @if ($module->accordion_items)
-<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module accordion-module {{ $module->background_style === 'light-gray' ? 'bg-color-light-gray' : '' }} {{ $module->custom_classes }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module accordion-module {{ $module->background_style === 'light-gray' ? 'bg-color-light-gray' : '' }} {{ $module->custom_classes ? $module->custom_classes : '' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row sage-py-70">
       <div class="col-md-20 offset-md-2">

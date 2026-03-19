@@ -1,4 +1,4 @@
-<div class="container-fluid image-text-50-50">
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module image-text-50-50 {{ $module->custom_classes ? $module->custom_classes : '' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row sage-py-100">
         @if ($module->image)
@@ -9,6 +9,9 @@
           </div>
         @endif
         <div class="content-wrapper sage-pt-50 offset-md-1 col-md-11 offset-lg-2 col-lg-9 {!! $module->image_side ? 'order-md-2' : 'order-md-1' !!}">
+          @if ($module->eyebrow_text)
+            <p class="sage-font-lg fw-bold text-uppercase sage-ls-100 sage-mb-5">{!! $module->eyebrow_text !!}</p>
+          @endif
           @if ($module->title)
             <h2>{!! $module->title !!}</h2>
           @endif

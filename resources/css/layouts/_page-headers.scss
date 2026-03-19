@@ -1,22 +1,23 @@
 .homepage-header {
-  .background-container {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
+  height: 100vh;
+
+  @include media-breakpoint-up(md) {
+    min-height: rem-calc(900px);
   }
 
   .container {
     z-index: 1;
-    padding-top: 100px;
-    padding-bottom: 100px;
+  }
 
-    @include media-breakpoint-down(md) {
-      min-height: 700px;
-    }
+  .content-wrapper {
+    p {
+      font-family: $primary-font;
+      font-size: rem-calc(16px);
+      font-style: normal;
 
-    @include media-breakpoint-up(md) {
-      padding-top: 215px;
-      padding-bottom: 330px;
+      @include media-breakpoint-up(md) {
+        font-size: rem-calc(24px);
+      }
     }
   }
 }

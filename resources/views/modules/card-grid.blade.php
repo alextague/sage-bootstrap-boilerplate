@@ -1,4 +1,4 @@
-<div class="container-fluid card-grid sage-py-md-100 sage-py-50 {{ $module->background_color ? 'bg-color-bp-echo' : '' }}">
+<div {!! $module->ID ? 'id="'.$module->ID.'"' : '' !!} class="container-fluid module card-grid {{ $module->background_color ? 'bg-color-bp-echo' : '' }} {{ $module->custom_classes ? $module->custom_classes : 'sage-py-md-100 sage-py-50' }}" {!! $module->custom_styles ? 'style="'.$module->custom_styles.'"' : '' !!}>
   <div class="container">
     <div class="row text-center">
         <h2 class="offset-md-6 col-md-12 sage-mb-20">{!! $module->title !!}</h2>

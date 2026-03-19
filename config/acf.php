@@ -19,8 +19,10 @@ return [
     'defaults' => [
         'fieldGroup' => ['instruction_placement' => 'acfe_instructions_tooltip'],
         'repeater' => ['layout' => 'block', 'acfe_repeater_stylised_button' => 1],
+        'image' => ['return_format' => 'id', 'preview_size' => 'medium'],
+        'gallery' => ['return_format' => 'id'],
         'trueFalse' => ['ui' => 1],
-        'select' => ['ui' => 1],
+        'select' => ['ui' => 1, 'return_format' => 'value', 'ajax' => 1],
         'postObject' => ['ui' => 1, 'return_format' => 'object'],
         'accordion' => ['multi_expand' => 1],
         'group' => ['layout' => 'table', 'acfe_group_modal' => 1],

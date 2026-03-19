@@ -100,7 +100,6 @@
     "wpackagist-plugin/mailchimp-for-wp": "*",
     "wpackagist-plugin/ewww-image-optimizer": "*",
     "wpackagist-plugin/google-analytics-dashboard-for-wp": "*",
-    "wpackagist-plugin/intuitive-custom-post-order": "*",
     "wpackagist-plugin/redirection": "*",
     "wpackagist-plugin/safe-svg": "*",
     "wpackagist-plugin/simple-cloudflare-turnstile": "*",

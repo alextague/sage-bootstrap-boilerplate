@@ -1,0 +1,80 @@
+/* ACF Module Documentation Styles */
+/* Styles for in-admin module documentation display */
+
+.acf-module-help {
+  padding: 15px;
+  background: #f0f6fc;
+  border-left: 4px solid #0073aa;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.acf-module-help strong {
+  color: #0073aa;
+  font-weight: 600;
+}
+
+.acf-module-help-detail {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.acf-module-help-detail h4 {
+  margin: 15px 0 10px;
+  color: #1e1e1e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.acf-module-help-detail ul {
+  margin: 10px 0 15px 20px;
+}
+
+.acf-module-help-detail ul li {
+  margin-bottom: 8px;
+  list-style: disc;
+}
+
+.acf-module-help-detail p {
+  margin: 10px 0;
+}
+
+.acf-module-help-detail a {
+  color: #0073aa;
+  text-decoration: none;
+}
+
+.acf-module-help-detail a:hover {
+  text-decoration: underline;
+}
+
+.acf-module-help-detail img {
+  display: block;
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced message field styling */
+.acf-field-message .acf-label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Help tab styling */
+.acf-tab-wrap.-left .acf-tab-group li[data-key="field_help"] a::before {
+  content: "📚 ";
+}
+
+/* Module documentation page styles */
+.module-docs-wrap .module-doc-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.module-docs-wrap .module-doc-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.module-docs-wrap .module-doc-card details[open] summary {
+  background: #e5e5e5;
+}

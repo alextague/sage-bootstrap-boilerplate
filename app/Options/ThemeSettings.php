@@ -107,27 +107,34 @@ class ThemeSettings extends Field
         $themeSettings = new FieldsBuilder('theme_settings');
 
         $themeSettings
-        ->addTab('announcement_banner')
-            ->addText('announcement_banner_copy')
-
         ->addTab('branding')
             ->addImage('header_logo')
             ->addImage('footer_logo')
-            ->addImage('footer_logomark')
-            ->addImage('footer_background')
-            ->addImage('menu_logo')
-            ->addImage('menu_background', [
-                'label' => 'Menu Background Image',
-            ])
-            ->addImage('menu_background_mobile', [
-                'label' => 'Menu Background Image Mobile',
-            ])
 
         ->addTab('archive', [
             'label' => 'Archive',
         ])
             ->addText('archive_title')
-            ->addImage('archive_header_image');
+            ->addImage('archive_header_image')
+
+        ->addTab('contact_info')
+            ->addText('address_1')
+            ->addText('address_2')
+            ->addText('city', [
+                'wrapper' => [
+                    'width' => '33%',
+                ],
+            ])
+            ->addText('state', [
+                'wrapper' => [
+                    'width' => '33%',
+                ],
+            ])
+            ->addText('zip', [
+                'wrapper' => [
+                    'width' => '33%',
+                ],
+            ]);
 
         return $themeSettings->build();
     }

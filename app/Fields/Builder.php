@@ -12,6 +12,8 @@ use App\Fields\Partials\ContactInfo;
 use App\Fields\Partials\ContactForm;
 use App\Fields\Partials\Accordion;
 use App\Fields\Partials\Carousel;
+use App\Fields\Partials\FreeformContent;
+use App\Fields\Partials\Text;
 
 class Builder extends Field
 {
@@ -54,7 +56,11 @@ class Builder extends Field
                 ->addLayout('image_text_50_50')
                     ->addFields($this->get(ImageText5050::class))
                 ->addLayout('logo_grid')
-                    ->addFields($this->get(LogoGrid::class));
+                    ->addFields($this->get(LogoGrid::class))
+                ->addLayout('freeform_content')
+                    ->addFields($this->get(FreeformContent::class))
+                ->addLayout('text')
+                    ->addFields($this->get(Text::class));
 
         return $builder->build();
     }
