@@ -20,7 +20,7 @@
 
   @if ($module->logos)
     <div class="carousel-slider position-relative order-2 w-100 {{ $module->variation === 'gallery' ? 'sage-mt-30 sage-mt-md-40' : 'sage-mt-40 sage-mt-md-60' }}">
-      <div id="carousel_splide_{{ $module->uid }}" class="splide {{ $module->variation !== 'gallery' ? 'bg-color-white sage-py-60 sage-py-md-100' : '' }}">
+      <div id="carousel_splide_{{ $module->uid }}" class="splide {{ $module->variation !== 'gallery' ? 'bg-color-white sage-py-60 sage-py-md-100' : '' }}" aria-label="{{ __('Image carousel', 'sage') }}">
         <div class="splide__track">
           <ul class="splide__list">
             @foreach ($module->logos as $logo)

@@ -1,3 +1,4 @@
+<nav aria-label="Mobile navigation">
 <ul>
   @foreach ($menu_items as $item)
     <li><a class="parent-link" href="{{ $item['url'] }}" target="{{ $item['target'] }}">{!! $item['title'] !!}</a>
@@ -11,3 +12,4 @@
     </li>
   @endforeach
 </ul>
+</nav>

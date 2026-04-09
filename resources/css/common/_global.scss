@@ -239,3 +239,16 @@ a {
 .bg-color-mid-blue {
   background-color: $color-mid-blue;
 }
+
+//------------------------------------------------//
+//------------ REDUCED MOTION SUPPORT ------------//
+//------------------------------------------------//
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

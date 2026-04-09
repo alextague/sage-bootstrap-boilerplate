@@ -13,7 +13,7 @@
     @php(wp_body_open())
 
     <div id="app">
-      <a class="sr-only focus:not-sr-only" href="#main">
+      <a class="sr-only-focusable" href="#main">
         {{ __('Skip to content', 'sage') }}
       </a>
 
@@ -24,7 +24,7 @@
       </main>
 
       @hasSection('sidebar')
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="{{ __('Sidebar', 'sage') }}">
           @yield('sidebar')
         </aside>
       @endif

@@ -18,7 +18,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade bios-modal" id="bios_modal" tabindex="-1" aria-labelledby="bio_wrapper" aria-hidden="true">
+<div class="modal fade bios-modal" id="bios_modal" tabindex="-1" aria-labelledby="bio_name" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-inner container-fluid bg-color-bp-alpha sage-pt-170 sage-pb-130">
       <div class="container">

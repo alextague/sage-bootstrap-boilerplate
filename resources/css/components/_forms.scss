@@ -82,6 +82,8 @@
               border-radius: 3px !important;
 
               &:focus {
+                outline: 2px solid $color-blue;
+                outline-offset: 2px;
                 box-shadow: none;
               }
             }
@@ -147,6 +149,8 @@
         &:focus,
         &:active,
         &:focus:active {
+          outline: 2px solid $white;
+          outline-offset: 2px;
           box-shadow: none;
           background: $color-blue !important;
         }

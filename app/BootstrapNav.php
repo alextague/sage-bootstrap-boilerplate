@@ -142,6 +142,9 @@ class BootstrapNav extends Walker_Nav_Menu
         if ($item->current || $item->current_item_ancestor) {
             $atts['class'] .= ' active';
         }
+        if ($item->current) {
+            $atts['aria-current'] = 'page';
+        }
         if ($item->is_subitem) {
             $atts['class'] .= ' dropdown-toggle';
             $atts += [
