@@ -154,25 +154,3 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
-
-/**
- * Add ACF theme options support
- */
-if (function_exists('acf_add_options_page')) {
-
-    acf_add_options_page(array(
-        'page_title'    => 'Theme General Settings',
-        'menu_title'    => 'Theme Settings',
-        'menu_slug'     => 'theme-general-settings',
-        'capability'    => 'edit_posts',
-        'redirect'      => false,
-        'position' => '2.1'
-    ));
-}
-
-/**
- * Make ajaxurl available on the frontend for JavaScript use.
- */
-add_action('wp_head', function () {
-    echo '<script>window.ajaxurl = "' . esc_url(admin_url('admin-ajax.php')) . '";</script>';
-});

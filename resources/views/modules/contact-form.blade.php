@@ -9,7 +9,7 @@
           @foreach($module->companies as $company)
           <div class="col-sm-12 sage-pb-75">
             <h3>{!! $company['company_name'] !!}</h3>
-            <a href="{{ $company['website']['url'] }}" class="white-color text-decoration-none fw-bold sage-font-md" target="{!! $company['website']['target'] !!}">{!! $company['website']['title'] !!}@if($company['website']['target']) <img src="@asset('images/external-link.svg')" class="sage-ml-10 align-baseline" alt="External Link">@endif</a>
+            <a href="{{ $company['website']['url'] }}" class="white-color text-decoration-none fw-bold sage-font-md" target="{{ $company['website']['target'] }}">{!! $company['website']['title'] !!}@if($company['website']['target']) <img src="@asset('images/external-link.svg')" class="sage-ml-10 align-baseline" alt="External Link">@endif</a>
             <p class="white-color sage-mt-30 sage-mb-0 fw-bold">Email</p>
             <p class="white-color sage-mb-30">{!! $company['email'] !!}</p>
             <p class="white-color sage-mt-30 sage-mb-0 fw-bold">Phone Number</p>

@@ -27,7 +27,7 @@ class AcfImage extends Component
     {
         if (!empty($imageId)) {
             $image_src = wp_get_attachment_image_src( $imageId, $size );
-            $image_meta = get_post(get_post_thumbnail_id($imageId));
+            $image_meta = get_post($imageId);
 
             $this->image_url = $image_src[0];
             $this->image_width = $image_src[1];

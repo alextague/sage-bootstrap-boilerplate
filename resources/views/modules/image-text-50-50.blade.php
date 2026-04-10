@@ -19,7 +19,7 @@
             {!! $module->copy !!}
           @endif
           @if ($module->button)
-            <a href="{{ $module->button['url'] }}" class="btn btn-tertiary sage-mt-20" target="{!! $module->button['target'] !!}">{!! $module->button['title'] !!}</a>
+            <a href="{{ $module->button['url'] }}" class="btn btn-tertiary sage-mt-20" target="{{ $module->button['target'] }}">{!! $module->button['title'] !!}</a>
           @endif
         </div>
       </div>
