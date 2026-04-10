@@ -29,6 +29,7 @@ class FeaturedImage extends Component
 
     protected $imageId;
     protected $size;
+    protected $srcsetSizes;
 
     public function __construct($imageId = null, $size = "full")
     {
@@ -48,6 +49,7 @@ class FeaturedImage extends Component
             $this->image_width = $image[1];
             $this->image_height = $image[2];
             $this->srcset = wp_get_attachment_image_srcset( get_post_thumbnail_id($imageId), $size );
+            $this->sizes = $srcsetSizes;
             $this->image_alt = $image_alt;
             $this->image_title = $image_meta->post_title;
         } else {

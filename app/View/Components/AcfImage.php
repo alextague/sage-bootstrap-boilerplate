@@ -22,6 +22,7 @@ class AcfImage extends Component
 
     protected $imageId;
     protected $size;
+    protected $srcsetSizes;
 
     public function __construct($imageId = null, $size = "full", $maxWidth = "100%")
     {
@@ -33,6 +34,7 @@ class AcfImage extends Component
             $this->image_width = $image_src[1];
             $this->image_height = $image_src[2];
             $this->srcset = wp_get_attachment_image_srcset( $imageId, $size );
+            $this->sizes = $srcsetSizes;
             $this->image_alt = get_post_meta($imageId, '_wp_attachment_image_alt', TRUE);
             $this->image_title = $image_meta->post_title;
         }
