@@ -4,6 +4,7 @@ namespace App\Fields;
 
 use Log1x\AcfComposer\Field;
 use StoutLogic\AcfBuilder\FieldsBuilder;
+use App\Fields\Partials\BioGrid;
 use App\Fields\Partials\CardGrid;
 use App\Fields\Partials\LogoGrid;
 use App\Fields\Partials\ImageText5050;
@@ -41,6 +42,8 @@ class Builder extends Field
             ->addFlexibleContent('page_builder', [
                 'button_label' => 'Add Module',
             ])
+                ->addLayout('bio_grid')
+                    ->addFields($this->get(BioGrid::class))
                 ->addLayout('card_grid')
                     ->addFields($this->get(CardGrid::class))
                 ->addLayout('accordion')
@@ -53,12 +56,14 @@ class Builder extends Field
                     ->addFields($this->get(ContactInfo::class))
                 ->addLayout('cta_banner')
                     ->addFields($this->get(CTABanner::class))
-                ->addLayout('image_text_50_50')
+                ->addLayout('freeform_content')
+                    ->addFields($this->get(FreeformContent::class))
+                ->addLayout('image_text_50_50', [
+                    'label' => 'Image and Text 50/50',
+                ])
                     ->addFields($this->get(ImageText5050::class))
                 ->addLayout('logo_grid')
                     ->addFields($this->get(LogoGrid::class))
-                ->addLayout('freeform_content')
-                    ->addFields($this->get(FreeformContent::class))
                 ->addLayout('text')
                     ->addFields($this->get(Text::class));
 

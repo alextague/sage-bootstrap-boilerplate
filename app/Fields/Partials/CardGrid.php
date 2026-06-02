@@ -64,17 +64,12 @@ class CardGrid extends Partial
             ->addTextarea('copy', [
                 'label' => 'Copy',
             ])
-            ->addRepeater('cards', [
-                'label' => 'Cards',
-            ])
-            ->addLink('link', [
-                'label' => 'Link',
-            ])
-            ->addImage('background_image', [
-                'label' => 'Background Image',
-                'return_format' => 'id',
-                'preview_size' => 'medium',
-            ])
+            ->addRepeater('cards')
+                ->addLink('link')
+                ->addImage('background_image', [
+                    'return_format' => 'id',
+                    'preview_size' => 'medium',
+                ])
             ->endRepeater()
         ->addTab('settings')
             ->addText('ID')
