@@ -30,7 +30,7 @@ Make sure all dependencies have been installed before moving on:
 
 - [Acorn](https://roots.io/acorn/docs/installation/) v5
 - [WordPress](https://wordpress.org/) >= 6.6.1
-- [PHP](https://secure.php.net/manual/en/install.php) >= 8.2
+- [PHP](https://secure.php.net/manual/en/install.php) >= 8.4
 - [Composer](https://getcomposer.org/download/)
 - [Node.js](http://nodejs.org/) >= 20
 
@@ -52,7 +52,27 @@ Edit `app/setup.php` to enable or disable theme features, setup navigation menus
 ## Theme development
 
 - Run `npm install` from the theme directory to install dependencies
-- Update `vite.config.js` with your local base path (`base: '/app/themes/goldie-initiative/public/build/',`)
+- Update `vite.config.js` with your local base path (`base: '/app/themes/sage-vite/public/build/',`)
+- Create a `auth.json` file in the theme root with http-basic connections to deliciousbrains.com and advancedcustomfields.com using the configurations and credentials found in your account for installing via Composer:
+
+```sh
+{
+  "http-basic": {
+    "composer.deliciousbrains.com": {
+      "username": #Random string of numbers and letters provided in account,
+      "password": #Random string of numbers and letters provided in account
+    },
+    "connect.advancedcustomfields.com": {
+      "username": #Random string of numbers and letters provided in account,
+      "password": "http://sage-boilerplate.local" #Local site URL (add site to account)
+    }
+  }
+}
+```
+
+Your Gravity Forms license key can be found in your [Gravity Forms account](https://www.gravityforms.com/my-account/).
+
+> **Note:** `.env` is gitignored and must be created manually on each environment. Never commit it to version control.
 - Create a `.env` file in the theme root with the following variables:
 
 ```sh
@@ -69,8 +89,8 @@ Your Gravity Forms license key can be found in your [Gravity Forms account](http
 The following plugins are managed via Composer but require credentials or manual steps:
 
 - **Gravity Forms** — installed via `composer install` using your `WP_PLUGIN_GF_KEY` env var
-- **ACF Pro** — installed via `composer install` using the WPEngine Composer repository (credentials managed automatically in CI)
-- **WP Migrate DB Pro** — must be installed manually; not available via Composer
+- **ACF Pro** — installed via `composer install` using the WPEngine Composer repository (credentials managed in auth.json)
+- **WP Migrate DB Pro** — installed via `composer install` (credentials managed in auth.json)
 
 
 ### Build commands
