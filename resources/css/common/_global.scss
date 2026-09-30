@@ -66,14 +66,14 @@ h1,
 .sage-h1 {
   font-size: rem-calc(75px);
   line-height: 1;
-  margin-bottom: 40px;
+  margin-bottom: rem-calc(40px);
 }
 
 h2,
 .sage-h2 {
   font-size: rem-calc(55px);
   line-height: 1;
-  margin-bottom: 35px;
+  margin-bottom: rem-calc(35px);
 }
 
 h3,
