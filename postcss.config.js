@@ -29,6 +29,11 @@ export default {
           /headroom/,
           /gform.*/,
           /gfield.*/,
+          // Theme color utilities generated from $colors-map, so class names can be built dynamically
+          /^color-/,
+          /^(?!form-control-color$).+-color$/,
+          /^bg-color-/,
+          /^border-color-/,
         ],
       }),
     ] : []),

@@ -175,71 +175,23 @@ a {
 }
 
 // ------------------------------------------------//
-// --------------- WIREFRAME COLORS ---------------//
+// ----------------- THEME COLORS -----------------//
 // ------------------------------------------------//
 
-.white-color {
-  color: $white;
-}
+// Generated from $colors-map in _variables.scss
+@each $name, $value in $colors-map {
+  .color-#{$name},
+  .#{$name}-color {
+    color: $value;
+  }
 
-.bg-color-white {
-  background-color: $white;
-}
+  .bg-color-#{$name} {
+    background-color: $value;
+  }
 
-.black-color {
-  color: $black;
-}
-
-.bg-color-black {
-  background-color: $black;
-}
-
-.color-dark-blue {
-  color: $color-dark-blue;
-}
-
-.bg-color-dark-blue {
-  background-color: $color-dark-blue;
-}
-
-.color-blue {
-  color: $color-blue;
-}
-
-.bg-color-blue {
-  background-color: $color-blue;
-}
-
-.color-blue-light {
-  color: $color-blue-light;
-}
-
-.bg-color-blue-light {
-  background-color: $color-blue-light;
-}
-
-.color-blue-pale {
-  color: $color-blue-pale;
-}
-
-.bg-color-blue-pale {
-  background-color: $color-blue-pale;
-}
-
-.color-blue-ice {
-  color: $color-blue-ice;
-}
-
-.bg-color-blue-ice {
-  background-color: $color-blue-ice;
-}
-
-.color-mid-blue {
-  color: $color-mid-blue;
-}
-
-.bg-color-mid-blue {
-  background-color: $color-mid-blue;
+  .border-color-#{$name} {
+    border-color: $value;
+  }
 }
 
 // ------------------------------------------------//
