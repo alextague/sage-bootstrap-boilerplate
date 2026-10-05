@@ -10,6 +10,13 @@ export default defineConfig({
   base: '/wp-content/themes/sage-vite/public/build/',
   css: {
     postcss: './postcss.config.js',
+    preprocessorOptions: {
+      scss: {
+        // Bootstrap 5 and the theme partials still use @import and global functions,
+        // which Dart Sass deprecates ahead of 3.0. Silence these until they're migrated to @use.
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function'],
+      },
+    },
   },
   plugins: [
     laravel({
