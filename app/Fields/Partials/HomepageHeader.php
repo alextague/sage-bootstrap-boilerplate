@@ -17,31 +17,31 @@ class HomepageHeader extends Partial
         $homepageHeader = new FieldsBuilder('homepage_header');
 
         $homepageHeader
-        ->addText('home_title', [
-            'label' => 'Title',
-            'conditional_logic' => [
-                "field" => "header_type",
-                "operator" => "==",
-                "value" => "homepage"
-            ]
-        ])
-        ->addTextarea('copy', [
-            'conditional_logic' => [
-                "field" => "header_type",
-                "operator" => "==",
-                "value" => "homepage"
-            ]
-        ])
-        ->addText('homepage_featured_image_positioning', [
-            'label' => 'Featured Image Position',
-            'instructions' => 'CSS object-position values (e.g., "50% 0", "center top", "left center")',
-            'default_value' => '50% 50%',
-            'conditional_logic' => [
-                "field" => "header_type",
-                "operator" => "==",
-                "value" => "homepage"
-            ]
-        ]);
+            ->addText('home_title', [
+                'label' => 'Title',
+                'conditional_logic' => [
+                    'field' => 'header_type',
+                    'operator' => '==',
+                    'value' => 'homepage',
+                ],
+            ])
+            ->addTextarea('copy', [
+                'conditional_logic' => [
+                    'field' => 'header_type',
+                    'operator' => '==',
+                    'value' => 'homepage',
+                ],
+            ])
+            ->addText('homepage_featured_image_positioning', [
+                'label' => 'Featured Image Position',
+                'instructions' => 'CSS object-position values (e.g., "50% 0", "center top", "left center")',
+                'default_value' => '50% 50%',
+                'conditional_logic' => [
+                    'field' => 'header_type',
+                    'operator' => '==',
+                    'value' => 'homepage',
+                ],
+            ]);
 
         return $homepageHeader;
     }

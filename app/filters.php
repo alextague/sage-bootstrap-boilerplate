@@ -35,8 +35,8 @@ add_filter('body_class', function ($classes) {
         $page_builder = get_field('page_builder');
 
         foreach ($page_builder as $module) {
-            if (file_exists(get_stylesheet_directory()."/resources/js/modules/".str_replace('_', '-', $module['acf_fc_layout']).".js")) {
-                $classes[] = str_replace('_', '-', $module['acf_fc_layout'])."-js";
+            if (file_exists(get_stylesheet_directory().'/resources/js/modules/'.str_replace('_', '-', $module['acf_fc_layout']).'.js')) {
+                $classes[] = str_replace('_', '-', $module['acf_fc_layout']).'-js';
             }
         }
     }

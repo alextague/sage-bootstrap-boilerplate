@@ -2,6 +2,8 @@
 
 namespace App\Fields\Traits;
 
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
 /**
  * Module Documentation Trait
  *
@@ -44,19 +46,19 @@ trait ModuleDocumentation
     /**
      * Add a brief "About This Module" message to the content tab.
      *
-     * @param string $moduleName  Display name of the module.
-     * @param string $description Brief description of what it does.
-     * @param string $whenToUse   When to use this module.
-     * @param string $howToUse    How to configure it.
-     * @return \StoutLogic\AcfBuilder\FieldsBuilder
+     * @param  string  $moduleName  Display name of the module.
+     * @param  string  $description  Brief description of what it does.
+     * @param  string  $whenToUse  When to use this module.
+     * @param  string  $howToUse  How to configure it.
+     * @return FieldsBuilder
      */
     protected function addModuleHelp($moduleName, $description, $whenToUse, $howToUse)
     {
-        $help = new \StoutLogic\AcfBuilder\FieldsBuilder('module_help_wrapper');
+        $help = new FieldsBuilder('module_help_wrapper');
 
         $help->addMessage('module_help', 'message', [
-            'label'    => '📖 About This Module',
-            'message'  => "
+            'label' => '📖 About This Module',
+            'message' => "
                 <div class=\"acf-module-help\">
                     <strong>{$moduleName}</strong><br>
                     {$description}<br><br>
@@ -74,49 +76,49 @@ trait ModuleDocumentation
      * Add a comprehensive help tab with a design reference screenshot,
      * usage guide, and best practices.
      *
-     * @param string $moduleSlug    Slug matching the screenshot filename (e.g. 'video-section').
-     * @param string $usageGuide   HTML formatted usage guide.
-     * @param string $bestPractices HTML formatted best-practices list.
-     * @return \StoutLogic\AcfBuilder\FieldsBuilder
+     * @param  string  $moduleSlug  Slug matching the screenshot filename (e.g. 'video-section').
+     * @param  string  $usageGuide  HTML formatted usage guide.
+     * @param  string  $bestPractices  HTML formatted best-practices list.
+     * @return FieldsBuilder
      */
     protected function addHelpTab($moduleSlug, $usageGuide = '', $bestPractices = '')
     {
-        $help = new \StoutLogic\AcfBuilder\FieldsBuilder('help_tab_wrapper');
+        $help = new FieldsBuilder('help_tab_wrapper');
 
         $help->addTab('help', [
             'placement' => 'left',
         ]);
 
         // Prefer PNG, fall back to SVG
-        $screenshotPath = get_template_directory_uri() . "/resources/images/admin/module-screenshots/{$moduleSlug}.svg";
-        $pngPath        = get_template_directory() . "/resources/images/admin/module-screenshots/{$moduleSlug}.png";
+        $screenshotPath = get_template_directory_uri()."/resources/images/admin/module-screenshots/{$moduleSlug}.svg";
+        $pngPath = get_template_directory()."/resources/images/admin/module-screenshots/{$moduleSlug}.png";
         if (file_exists($pngPath)) {
-            $screenshotPath = get_template_directory_uri() . "/resources/images/admin/module-screenshots/{$moduleSlug}.png";
+            $screenshotPath = get_template_directory_uri()."/resources/images/admin/module-screenshots/{$moduleSlug}.png";
         }
 
         $help->addMessage('design_reference', 'message', [
-            'label'    => '🎨 Design Reference',
-            'message'  => "
+            'label' => '🎨 Design Reference',
+            'message' => "
                 <div class=\"acf-module-help-detail\">
                     <p><strong>Visual Example:</strong></p>
-                    <img src=\"{$screenshotPath}?v=" . time() . "\" alt=\"Module design\" style=\"max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin-top:10px;\">
+                    <img src=\"{$screenshotPath}?v=".time().'" alt="Module design" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin-top:10px;">
                 </div>
-            ",
+            ',
             'esc_html' => 0,
         ]);
 
         if (! empty($usageGuide)) {
             $help->addMessage('usage_guide', 'message', [
-                'label'    => '📋 Detailed Usage Guide',
-                'message'  => "<div class=\"acf-module-help-detail\">{$usageGuide}</div>",
+                'label' => '📋 Detailed Usage Guide',
+                'message' => "<div class=\"acf-module-help-detail\">{$usageGuide}</div>",
                 'esc_html' => 0,
             ]);
         }
 
         if (! empty($bestPractices)) {
             $help->addMessage('best_practices', 'message', [
-                'label'    => '💡 Best Practices',
-                'message'  => "<div class=\"acf-module-help-detail\">{$bestPractices}</div>",
+                'label' => '💡 Best Practices',
+                'message' => "<div class=\"acf-module-help-detail\">{$bestPractices}</div>",
                 'esc_html' => 0,
             ]);
         }
@@ -127,8 +129,8 @@ trait ModuleDocumentation
     /**
      * Format a best-practices list with optional warnings.
      *
-     * @param array $items    Positive practice items.
-     * @param array $warnings Warning items (optional).
+     * @param  array  $items  Positive practice items.
+     * @param  array  $warnings  Warning items (optional).
      * @return string HTML formatted list.
      */
     protected function formatBestPracticesList($items, $warnings = [])
@@ -148,7 +150,7 @@ trait ModuleDocumentation
     /**
      * Format a usage guide with section headings.
      *
-     * @param array $sections Array of ['Heading' => 'content'|['item1','item2']] pairs.
+     * @param  array  $sections  Array of ['Heading' => 'content'|['item1','item2']] pairs.
      * @return string HTML formatted guide.
      */
     protected function formatUsageGuide($sections)
@@ -177,9 +179,9 @@ trait ModuleDocumentation
      */
     protected function getSpacingInstructions()
     {
-        return 'Control spacing around this module. Format: sage-[property]-[size]' . "\n"
-            . 'Properties: m = margin, p = padding | t = top, b = bottom | x = left+right, y = top+bottom' . "\n"
-            . 'Examples: sage-mb-50 (50px bottom margin), sage-py-80 (80px top+bottom padding).' . "\n"
-            . 'Size: integers 0–220 (actual pixels).';
+        return 'Control spacing around this module. Format: sage-[property]-[size]'."\n"
+            .'Properties: m = margin, p = padding | t = top, b = bottom | x = left+right, y = top+bottom'."\n"
+            .'Examples: sage-mb-50 (50px bottom margin), sage-py-80 (80px top+bottom padding).'."\n"
+            .'Size: integers 0–220 (actual pixels).';
     }
 }

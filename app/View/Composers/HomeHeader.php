@@ -12,7 +12,7 @@ class HomeHeader extends Composer
      * @var array
      */
     protected static $views = [
-        'partials.headers.home-header'
+        'partials.headers.home-header',
     ];
 
     /**

@@ -31,17 +31,17 @@
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       inset: 8px;
-      border: solid 2px #C66F50;
+      border: solid 2px #c66f50;
     }
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       inset: 16px;
-      border: solid 4px #C66F50;
+      border: solid 4px #c66f50;
     }
 
     .content-column {
@@ -59,7 +59,7 @@
     position: absolute;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
       width: 100%;

@@ -49,7 +49,7 @@ class LogoGrid extends Partial
         );
 
         $logo_grid
-        ->addTab('content')
+            ->addTab('content')
             ->addFields($this->addModuleHelp(
                 'Logo Grid',
                 'A responsive grid of partner, sponsor, or client logos with optional links.',
@@ -74,7 +74,7 @@ class LogoGrid extends Partial
                 'preview_size' => 'medium',
             ])
             ->endRepeater()
-        ->addTab('settings')
+            ->addTab('settings')
             ->addText('ID')
             ->addText('custom_classes', [
                 'instructions' => $this->getSpacingInstructions(),

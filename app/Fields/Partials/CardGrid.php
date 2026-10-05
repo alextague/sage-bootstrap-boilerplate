@@ -45,7 +45,7 @@ class CardGrid extends Partial
         );
 
         $card_grid
-        ->addTab('content')
+            ->addTab('content')
             ->addFields($this->addModuleHelp(
                 'Card Grid',
                 'A responsive grid of visual cards with background images and call-to-action links.',
@@ -65,13 +65,13 @@ class CardGrid extends Partial
                 'label' => 'Copy',
             ])
             ->addRepeater('cards')
-                ->addLink('link')
-                ->addImage('background_image', [
-                    'return_format' => 'id',
-                    'preview_size' => 'medium',
-                ])
+            ->addLink('link')
+            ->addImage('background_image', [
+                'return_format' => 'id',
+                'preview_size' => 'medium',
+            ])
             ->endRepeater()
-        ->addTab('settings')
+            ->addTab('settings')
             ->addText('ID')
             ->addText('custom_classes', [
                 'instructions' => $this->getSpacingInstructions(),

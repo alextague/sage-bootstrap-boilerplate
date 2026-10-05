@@ -47,7 +47,7 @@ class ImageText5050 extends Partial
         );
 
         $image_text_50_50
-        ->addTab('content')
+            ->addTab('content')
             ->addFields($this->addModuleHelp(
                 'Image & Text 50/50',
                 'A two-column split-screen layout with an image on one side and text content on the other, with two style variations.',
@@ -59,10 +59,10 @@ class ImageText5050 extends Partial
                 'instructions' => '<strong>Option 1:</strong> Simple image and text layout with options to switch layout sides and optional elements.<br/>
                     <strong>Option 2:</strong> Styled to look the blog post cards.',
                 'choices' => [
-                    "option_1" => "Option 1",
-                    "option_2" => "Option 2",
+                    'option_1' => 'Option 1',
+                    'option_2' => 'Option 2',
                 ],
-                'default_value' => ["option_1"],
+                'default_value' => ['option_1'],
                 'ui' => 1,
                 'ajax' => 1,
                 'return_format' => 'value',
@@ -77,16 +77,15 @@ class ImageText5050 extends Partial
             ->addImage('image')
 
             ->addText('eyebrow_text')
-                ->conditional('style_option', '==', 'option_1')
+            ->conditional('style_option', '==', 'option_1')
 
             ->addText('title')
 
             ->addWysiwyg('copy')
 
             ->addLink('button')
-                ->conditional('style_option', '==', 'option_1')
-
-        ->addTab('settings')
+            ->conditional('style_option', '==', 'option_1')
+            ->addTab('settings')
             ->addText('ID')
             ->addText('custom_classes', [
                 'instructions' => $this->getSpacingInstructions(),

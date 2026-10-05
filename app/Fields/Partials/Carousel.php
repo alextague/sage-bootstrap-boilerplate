@@ -2,9 +2,9 @@
 
 namespace App\Fields\Partials;
 
+use App\Fields\Traits\ModuleDocumentation;
 use Log1x\AcfComposer\Partial;
 use StoutLogic\AcfBuilder\FieldsBuilder;
-use App\Fields\Traits\ModuleDocumentation;
 
 class Carousel extends Partial
 {
@@ -13,7 +13,7 @@ class Carousel extends Partial
     /**
      * The partial field group.
      *
-     * @return \StoutLogic\AcfBuilder\FieldsBuilder
+     * @return FieldsBuilder
      */
     public function fields()
     {
@@ -59,79 +59,79 @@ class Carousel extends Partial
         $customHelpTab->addTab('help', [
             'placement' => 'left',
         ])
-        ->addMessage('design_reference', 'message', [
-            'label' => '🎨 Carousel Variations',
-            'message' => "
+            ->addMessage('design_reference', 'message', [
+                'label' => '🎨 Carousel Variations',
+                'message' => "
                 <div class=\"acf-module-help-detail\">
                     <h4>Logos Variation</h4>
                     <p>Continuous scrolling carousel of logos - perfect for partners, sponsors, or clients.</p>
-                    <img src=\"{$template_uri}/resources/images/admin/module-screenshots/carousel-logos.png?v=" . time() . "\" alt=\"Logos Carousel\" style=\"max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin:10px 0 20px 0;\">
+                    <img src=\"{$template_uri}/resources/images/admin/module-screenshots/carousel-logos.png?v=".time()."\" alt=\"Logos Carousel\" style=\"max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin:10px 0 20px 0;\">
 
                     <h4>Gallery Images Variation</h4>
                     <p>Slideshow carousel with navigation arrows and optional CTA button.</p>
-                    <img src=\"{$template_uri}/resources/images/admin/module-screenshots/carousel-gallery-images.png?v=" . time() . "\" alt=\"Gallery Carousel\" style=\"max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin:10px 0;\">
+                    <img src=\"{$template_uri}/resources/images/admin/module-screenshots/carousel-gallery-images.png?v=".time().'" alt="Gallery Carousel" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:4px; margin:10px 0;">
                 </div>
-            ",
-            'esc_html' => 0,
-        ])
-        ->addMessage('usage_guide', 'message', [
-            'label' => '📋 Detailed Usage Guide',
-            'message' => "
+            ',
+                'esc_html' => 0,
+            ])
+            ->addMessage('usage_guide', 'message', [
+                'label' => '📋 Detailed Usage Guide',
+                'message' => "
                 <div class=\"acf-module-help-detail\">
                     {$usageGuide}
                 </div>
             ",
-            'esc_html' => 0,
-        ])
-        ->addMessage('best_practices', 'message', [
-            'label' => '💡 Best Practices',
-            'message' => "
+                'esc_html' => 0,
+            ])
+            ->addMessage('best_practices', 'message', [
+                'label' => '💡 Best Practices',
+                'message' => "
                 <div class=\"acf-module-help-detail\">
                     {$bestPractices}
                 </div>
             ",
-            'esc_html' => 0,
-        ]);
+                'esc_html' => 0,
+            ]);
 
         $carousel
             ->addTab('content')
-                ->addFields($this->addModuleHelp(
-                    'Carousel',
-                    'Auto-scrolling image carousel with two variations: continuous logo display or navigable gallery slideshow.',
-                    'Use Logos variation for partner/sponsor showcases. Use Gallery variation for photo highlights, event galleries, or visual storytelling.',
-                    'Add a title, select variation (Logos or Gallery), upload images, and optionally add a button for Gallery variation.'
-                ))
-                ->addText('title')
-                ->addSelect('variation', [
-                    'label' => 'Variation',
-                    'choices' => [
-                        'logos' => 'Logos',
-                        'gallery' => 'Gallery Images',
-                    ],
-                    'default_value' => 'logos',
-                ])
-                ->addLink('button', [
-                    'label' => 'Button (Optional)',
-                    'conditional_logic' => [
+            ->addFields($this->addModuleHelp(
+                'Carousel',
+                'Auto-scrolling image carousel with two variations: continuous logo display or navigable gallery slideshow.',
+                'Use Logos variation for partner/sponsor showcases. Use Gallery variation for photo highlights, event galleries, or visual storytelling.',
+                'Add a title, select variation (Logos or Gallery), upload images, and optionally add a button for Gallery variation.'
+            ))
+            ->addText('title')
+            ->addSelect('variation', [
+                'label' => 'Variation',
+                'choices' => [
+                    'logos' => 'Logos',
+                    'gallery' => 'Gallery Images',
+                ],
+                'default_value' => 'logos',
+            ])
+            ->addLink('button', [
+                'label' => 'Button (Optional)',
+                'conditional_logic' => [
+                    [
                         [
-                            [
-                                'field' => 'variation',
-                                'operator' => '==',
-                                'value' => 'gallery',
-                            ],
+                            'field' => 'variation',
+                            'operator' => '==',
+                            'value' => 'gallery',
                         ],
                     ],
-                ])
-                ->addGallery('logos', [
-                    'label' => 'Images',
-                    'min' => 1,
-                ])
+                ],
+            ])
+            ->addGallery('logos', [
+                'label' => 'Images',
+                'min' => 1,
+            ])
             ->addTab('settings')
-                ->addText('ID')
-                ->addText('custom_classes', [
-                    'instructions' => $this->getSpacingInstructions(),
-                ])
-                ->addText('custom_styles')
+            ->addText('ID')
+            ->addText('custom_classes', [
+                'instructions' => $this->getSpacingInstructions(),
+            ])
+            ->addText('custom_styles')
             ->addFields($customHelpTab);
 
         return $carousel;

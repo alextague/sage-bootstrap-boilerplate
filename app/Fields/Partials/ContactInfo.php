@@ -45,7 +45,7 @@ class ContactInfo extends Partial
         );
 
         $contact_info
-        ->addTab('content')
+            ->addTab('content')
             ->addFields($this->addModuleHelp(
                 'Contact Info',
                 'Displays business contact details — name, website, email, phone, and Google Maps link — alongside a section title and body copy.',
@@ -68,12 +68,12 @@ class ContactInfo extends Partial
                 'label' => 'Google Link',
             ])
             ->addText('title', [
-                'label' => 'Title'
+                'label' => 'Title',
             ])
             ->addWysiwyg('copy', [
-                'label' => 'Copy'
+                'label' => 'Copy',
             ])
-        ->addTab('settings')
+            ->addTab('settings')
             ->addText('ID')
             ->addText('custom_classes', [
                 'instructions' => $this->getSpacingInstructions(),

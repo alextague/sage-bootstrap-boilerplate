@@ -12,7 +12,7 @@ class StandardHeader extends Composer
      * @var array
      */
     protected static $views = [
-        'partials.headers.standard-header'
+        'partials.headers.standard-header',
     ];
 
     /**

@@ -6,15 +6,14 @@ $grid-breakpoints: (
   md: 992px,
   lg: 1200px,
   xl: 1440px,
-  xxl: 1600px
+  xxl: 1600px,
 );
-
 $container-max-widths: (
   sm: 738px,
   md: 962px,
   lg: 1170px,
   xl: 1410px,
-  xxl: 1570px
+  xxl: 1570px,
 );
 
 // PROJECT COLORS
@@ -36,9 +35,8 @@ $color-blue-sky: #90c3f8;
 $white: white;
 $black: black;
 $error: red;
-
-$primary-font: "Open Sans";
-$secondary-font: "EB Garamond";
+$primary-font: 'Open Sans';
+$secondary-font: 'EB Garamond';
 
 // https://jonsuh.com/hamburgers/
 $hamburger-padding-x: 5px;
@@ -49,7 +47,6 @@ $hamburger-layer-spacing: 4px;
 $hamburger-layer-color: $black;
 $hamburger-layer-border-radius: 0;
 $hamburger-hover-opacity: 1;
-
 $hamburger-active-layer-color: $black;
 $hamburger-active-hover-opacity: $hamburger-hover-opacity;
 $hamburger-hover-use-filter: false;

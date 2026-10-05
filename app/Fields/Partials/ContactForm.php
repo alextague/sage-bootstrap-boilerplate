@@ -42,25 +42,25 @@ class ContactForm extends Partial
 
         $contact_form
             ->addTab('content')
-                ->addFields($this->addModuleHelp(
-                    'Contact Form',
-                    'Embeds a Contact Form 7 form with an optional background image in a styled full-width layout.',
-                    'Use on contact pages or landing pages to collect user inquiries. Requires Contact Form 7 to be installed and configured.',
-                    'Select a Contact Form 7 form from the dropdown, then optionally upload a background image for visual interest.'
-                ))
-                ->addField('form', 'acf_cf7')
-                ->addImage('background_image')
+            ->addFields($this->addModuleHelp(
+                'Contact Form',
+                'Embeds a Contact Form 7 form with an optional background image in a styled full-width layout.',
+                'Use on contact pages or landing pages to collect user inquiries. Requires Contact Form 7 to be installed and configured.',
+                'Select a Contact Form 7 form from the dropdown, then optionally upload a background image for visual interest.'
+            ))
+            ->addField('form', 'acf_cf7')
+            ->addImage('background_image')
             ->addTab('settings')
-                ->addText('ID')
-                ->addText('custom_classes', [
-                    'instructions' => $this->getSpacingInstructions(),
-                ])
-                ->addText('custom_styles')
-                ->addFields($this->addHelpTab(
-                    'contact-form',
-                    $usageGuide,
-                    $bestPractices
-                ));
+            ->addText('ID')
+            ->addText('custom_classes', [
+                'instructions' => $this->getSpacingInstructions(),
+            ])
+            ->addText('custom_styles')
+            ->addFields($this->addHelpTab(
+                'contact-form',
+                $usageGuide,
+                $bestPractices
+            ));
 
         return $contact_form;
     }

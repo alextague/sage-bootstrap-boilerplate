@@ -4,19 +4,19 @@ namespace App;
 
 use Walker_Nav_Menu;
 
-use function get_post_type;
-use function get_post_types;
-use function get_post_type_archive_link;
-use function is_search;
-use function sanitize_title;
 use function add_filter;
+use function get_post_type;
+use function get_post_type_archive_link;
+use function get_post_types;
+use function is_search;
 use function remove_filter;
-
+use function sanitize_title;
 
 /**
  * This NavWalker was forked from Roots/Soil/src/NavWalker.
  * The Soil plugin has been deprecated in favor of Acorn/Acorn-Prettify and is no longer maintained.
  * This NavWalker includes Soil's cleaner navigation markup and is modified to work with Bootstrap 5.
+ *
  * @link https://github.com/roots/soil/
  * @link https://getbootstrap.com/docs/5.0/components/navbar/
  * Walker_Nav_Menu (WordPress default) example output:
@@ -26,7 +26,6 @@ use function remove_filter;
  * NavWalker example output:
  *   <li class="menu-home menu-item nav-item active"><a href="/" class="nav-link">Home</a></li>
  *   <li class="menu-sample-page menu-item nav-item"><a href="/sample-page/" class="nav-link">Sample Page</a></li>
- *
  */
 class BootstrapNav extends Walker_Nav_Menu
 {
@@ -46,11 +45,11 @@ class BootstrapNav extends Walker_Nav_Menu
 
     public function __construct()
     {
-        $cpt              = get_post_type();
+        $cpt = get_post_type();
 
-        $this->is_cpt     = in_array($cpt, get_post_types(array('_builtin' => false)), true);
-        $this->archive    = get_post_type_archive_link($cpt);
-        $this->is_search  = is_search();
+        $this->is_cpt = in_array($cpt, get_post_types(['_builtin' => false]), true);
+        $this->archive = get_post_type_archive_link($cpt);
+        $this->is_search = is_search();
     }
 
     public function checkCurrent($classes)
@@ -60,10 +59,10 @@ class BootstrapNav extends Walker_Nav_Menu
 
     public function displayElement($element, &$children_elements, $max_depth, $depth, $args, &$output)
     {
-        $element->is_subitem = ((!empty($children_elements[$element->ID]) && (($depth + 1) < $max_depth || ($max_depth === 0))));
-        $element->is_active = (!empty($element->url) && strpos($this->archive, $element->url));
+        $element->is_subitem = ((! empty($children_elements[$element->ID]) && (($depth + 1) < $max_depth || ($max_depth === 0))));
+        $element->is_active = (! empty($element->url) && strpos($this->archive, $element->url));
 
-        if ($element->is_active && !$this->is_search) {
+        if ($element->is_active && ! $this->is_search) {
             $element->classes[] = 'active';
         }
 
@@ -78,7 +77,7 @@ class BootstrapNav extends Walker_Nav_Menu
         if ($this->is_cpt) {
             $classes = str_replace('current_page_parent', '', $classes);
 
-            if ($this->archive && !$this->is_search) {
+            if ($this->archive && ! $this->is_search) {
                 if (strpos($item->url, $this->archive) !== false) {
                     $classes[] = 'active';
                 }
@@ -106,7 +105,7 @@ class BootstrapNav extends Walker_Nav_Menu
         }
 
         // Add `menu-<slug>` class
-        $classes[] = 'menu-' . $slug;
+        $classes[] = 'menu-'.$slug;
 
         $classes = array_unique($classes);
         $classes = array_map('trim', $classes);
@@ -116,24 +115,20 @@ class BootstrapNav extends Walker_Nav_Menu
 
     /**
      * Add "dropdown-menu" class to dropdown UL
-     * @param $classes
-     * @return array
      */
-    function dropdownListClass($classes): array
+    public function dropdownListClass($classes): array
     {
         $classes[] = 'dropdown-menu';
+
         return $classes;
     }
 
     /**
      * Add Bootstrap 5 classes and attributes to anchor links.
      * This method originally created by QWp6t.
-     * @param $atts
-     * @param $item
-     * @param $args
-     * @param $depth
-     * @return array
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter) This method overrides its parent
+     *
      * @link (credit) https://gist.github.com/QWp6t/8f94b7096bb0d3a72fedba68f73033a5#file-bootstrap-php-L63
      */
     public function linkAttributes($atts, $item, /** @noinspection PhpUnusedParameterInspection */ $args, $depth): array
@@ -150,16 +145,17 @@ class BootstrapNav extends Walker_Nav_Menu
             $atts += [
                 'data-bs-toggle' => 'dropdown',
                 'role' => 'button',
-                'aria-expanded' => 'false'
+                'aria-expanded' => 'false',
             ];
         }
+
         return $atts;
     }
 
     public function walk($elements, $max_depth, ...$args)
     {
         // Add filters
-        add_filter('nav_menu_css_class', array($this, 'cssClasses'), 10, 2);
+        add_filter('nav_menu_css_class', [$this, 'cssClasses'], 10, 2);
         add_filter('nav_menu_item_id', '__return_null');
         add_filter('nav_menu_submenu_css_class', [$this, 'dropdownListClass'], 10, 2);
         add_filter('nav_menu_link_attributes', [$this, 'linkAttributes'], 10, 4);

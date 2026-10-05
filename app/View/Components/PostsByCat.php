@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class PostsByCat extends Component
@@ -14,6 +15,7 @@ class PostsByCat extends Component
     public $posts_by_cat;
 
     protected $cat;
+
     protected $postsPerPage;
 
     public function __construct($cat, $postsPerPage = 4)
@@ -37,7 +39,7 @@ class PostsByCat extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
     {

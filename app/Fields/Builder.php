@@ -2,19 +2,19 @@
 
 namespace App\Fields;
 
-use Log1x\AcfComposer\Field;
-use StoutLogic\AcfBuilder\FieldsBuilder;
+use App\Fields\Partials\Accordion;
 use App\Fields\Partials\BioGrid;
 use App\Fields\Partials\CardGrid;
-use App\Fields\Partials\LogoGrid;
-use App\Fields\Partials\ImageText5050;
-use App\Fields\Partials\CTABanner;
-use App\Fields\Partials\ContactInfo;
-use App\Fields\Partials\ContactForm;
-use App\Fields\Partials\Accordion;
 use App\Fields\Partials\Carousel;
+use App\Fields\Partials\ContactForm;
+use App\Fields\Partials\ContactInfo;
+use App\Fields\Partials\CTABanner;
 use App\Fields\Partials\FreeformContent;
+use App\Fields\Partials\ImageText5050;
+use App\Fields\Partials\LogoGrid;
 use App\Fields\Partials\Text;
+use Log1x\AcfComposer\Field;
+use StoutLogic\AcfBuilder\FieldsBuilder;
 
 class Builder extends Field
 {
@@ -26,12 +26,11 @@ class Builder extends Field
     public function fields()
     {
         $builder = new FieldsBuilder('page_builder', [
-            'hide_on_screen' =>
-            [
+            'hide_on_screen' => [
                 'the_content',
                 'comments',
                 'format',
-            ]
+            ],
         ]);
 
         $builder
@@ -42,30 +41,30 @@ class Builder extends Field
             ->addFlexibleContent('page_builder', [
                 'button_label' => 'Add Module',
             ])
-                ->addLayout('bio_grid')
-                    ->addFields($this->get(BioGrid::class))
-                ->addLayout('card_grid')
-                    ->addFields($this->get(CardGrid::class))
-                ->addLayout('accordion')
-                    ->addFields($this->get(Accordion::class))
-                ->addLayout('carousel')
-                    ->addFields($this->get(Carousel::class))
-                ->addLayout('contact_form')
-                    ->addFields($this->get(ContactForm::class))
-                ->addLayout('contact_info')
-                    ->addFields($this->get(ContactInfo::class))
-                ->addLayout('cta_banner')
-                    ->addFields($this->get(CTABanner::class))
-                ->addLayout('freeform_content')
-                    ->addFields($this->get(FreeformContent::class))
-                ->addLayout('image_text_50_50', [
-                    'label' => 'Image and Text 50/50',
-                ])
-                    ->addFields($this->get(ImageText5050::class))
-                ->addLayout('logo_grid')
-                    ->addFields($this->get(LogoGrid::class))
-                ->addLayout('text')
-                    ->addFields($this->get(Text::class));
+            ->addLayout('bio_grid')
+            ->addFields($this->get(BioGrid::class))
+            ->addLayout('card_grid')
+            ->addFields($this->get(CardGrid::class))
+            ->addLayout('accordion')
+            ->addFields($this->get(Accordion::class))
+            ->addLayout('carousel')
+            ->addFields($this->get(Carousel::class))
+            ->addLayout('contact_form')
+            ->addFields($this->get(ContactForm::class))
+            ->addLayout('contact_info')
+            ->addFields($this->get(ContactInfo::class))
+            ->addLayout('cta_banner')
+            ->addFields($this->get(CTABanner::class))
+            ->addLayout('freeform_content')
+            ->addFields($this->get(FreeformContent::class))
+            ->addLayout('image_text_50_50', [
+                'label' => 'Image and Text 50/50',
+            ])
+            ->addFields($this->get(ImageText5050::class))
+            ->addLayout('logo_grid')
+            ->addFields($this->get(LogoGrid::class))
+            ->addLayout('text')
+            ->addFields($this->get(Text::class));
 
         return $builder->build();
     }
