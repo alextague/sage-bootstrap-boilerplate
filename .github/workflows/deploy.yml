@@ -9,6 +9,9 @@ name: Deploy to WPEngine
 #
 # And in GitHub → Settings → Secrets:
 #   WPE_SSHG_KEY_PRIVATE  (WPEngine Git Push SSH private key)
+#
+# Every deploy job is skipped until THEME_SLUG is set, so the
+# boilerplate (and new projects) don't attempt to deploy.
 # ─────────────────────────────────────────────────────────────
 
 on:
@@ -31,7 +34,7 @@ on:
 
 jobs:
   deploy-dev:
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'deploy-dev')
+    if: vars.THEME_SLUG != '' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'deploy-dev')
     runs-on: ubuntu-22.04
 
     steps:
@@ -79,7 +82,7 @@ jobs:
         run: bash .github/scripts/post-deploy.sh
 
   deploy-production:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: vars.THEME_SLUG != '' && github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-22.04
 
     steps:
@@ -127,7 +130,7 @@ jobs:
         run: bash .github/scripts/post-deploy.sh
 
   deploy-staging:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    if: vars.THEME_SLUG != '' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: ubuntu-22.04
 
     steps:
@@ -175,7 +178,7 @@ jobs:
         run: bash .github/scripts/post-deploy.sh
 
   deploy-manual:
-    if: github.event_name == 'workflow_dispatch'
+    if: vars.THEME_SLUG != '' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-22.04
 
     steps:
