@@ -12,9 +12,11 @@ export default defineConfig({
     postcss: './postcss.config.js',
     preprocessorOptions: {
       scss: {
-        // Bootstrap 5 and the theme partials still use @import and global functions,
-        // which Dart Sass deprecates ahead of 3.0. Silence these until they're migrated to @use.
-        silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function'],
+        // Hide deprecation warnings from inside npm packages (Bootstrap 5 and Hamburgers aren't
+        // written for Sass modules). The theme's only @import is the Bootstrap wrapper in
+        // resources/css/vendor/_bootstrap.scss, so the import deprecation is silenced for it.
+        quietDeps: true,
+        silenceDeprecations: ['import'],
       },
     },
   },

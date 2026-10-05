@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 ///
 /// Viewport sized typography with minimum and maximum values
 ///
@@ -16,7 +18,12 @@
 ///
 @mixin responsive-font($responsive, $min, $max: false, $fallback: false) {
   $responsive-unitless: math.div($responsive, ($responsive - $responsive + 1));
-  $dimension: if(math.unit($responsive) == 'vh', 'height', 'width');
+  $dimension: 'width';
+
+  @if math.unit($responsive) == 'vh' {
+    $dimension: 'height';
+  }
+
   $min-breakpoint: calc($min / $responsive-unitless * 100);
 
   @media (max-#{$dimension}: #{$min-breakpoint}) {

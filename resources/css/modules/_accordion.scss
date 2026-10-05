@@ -1,4 +1,4 @@
-@import '../common/shared';
+@use '../common/tools' as *;
 
 .accordion-module {
   .accordion {
