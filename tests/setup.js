@@ -1,6 +1,8 @@
 // Setup file for Jest tests
 // Add global test setup here if needed
 
+import { jest } from '@jest/globals';
+
 // Mock jQuery if not available
 if (typeof jQuery === 'undefined') {
   global.jQuery = jest.fn((selector) => {

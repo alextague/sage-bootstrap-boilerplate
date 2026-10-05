@@ -6,3 +6,4 @@
 npm-debug.log
 auth.json
 .phpunit.cache
+/coverage
