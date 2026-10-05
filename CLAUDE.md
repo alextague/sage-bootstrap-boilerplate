@@ -236,27 +236,33 @@ Generated utility classes in `resources/css/common/_helper.scss`:
 ### Color System
 Color variables are defined in `resources/css/common/_variables.scss` using **descriptive appearance-based names** — the variable name describes what the color looks like, not an abstract role.
 
-**SCSS Variable Convention**: `$color-{appearance}` (e.g., `$color-dark-blue`, `$color-gold`, `$color-off-white`)
-**CSS Utility Class Convention**: `.color-{appearance}` for text color, `.bg-color-{appearance}` for background color
+**SCSS Variable Convention**: `$color-{appearance}` (e.g., `$color-dark-blue`, `$color-gold`, `$color-off-white`). White and black follow the same convention (`$color-white`, `$color-black`); `$white` and `$black` are aliases kept for Bootstrap, Hamburgers and existing partials.
+**CSS Utility Class Convention**: `.color-{appearance}` (or `.{appearance}-color`) for text color, `.bg-color-{appearance}` for background color, `.border-color-{appearance}` for border color
+
+**Adding a color**: Define the `$color-{appearance}` variable and add it to `$colors-map` with the same name. The utility classes are generated from the map by a loop in `_global.scss` — never write color utility classes by hand.
 
 **Examples**:
 ```scss
 // _variables.scss — Define per project
 $color-dark-blue: #1c3665;
-$color-blue: #2699fb;
 $color-gold: #c9a227;
-$color-off-white: #f8f6f2;
+
+$colors-map: (
+  'dark-blue': $color-dark-blue,
+  'gold': $color-gold,
+);
 ```
 ```scss
-// _global.scss — Generate utility classes
-.color-dark-blue { color: $color-dark-blue; }
-.bg-color-dark-blue { background-color: $color-dark-blue; }
+// _global.scss — generates .color-{name}, .{name}-color, .bg-color-{name} and .border-color-{name}
+@each $name, $value in $colors-map { ... }
 ```
 ```blade
 {{-- Usage in Blade templates --}}
 <div class="color-dark-blue">Text</div>
-<div class="bg-color-dark-blue">Background</div>
+<div class="bg-color-dark-blue border border-color-gold">Background and border</div>
 ```
+
+The generated classes are safelisted in `postcss.config.js`, so they can be built dynamically (e.g. `bg-color-{{ $module->background_color }}` from an ACF select whose values match the map names).
 
 **Module Rule**: Always use color utility classes in Blade templates — never hardcode hex values in module SCSS.
 
@@ -513,9 +519,10 @@ Images and fonts in `resources/images/` and `resources/fonts/` are included in t
 - Values are in 5px increments (e.g., `.sage-mb-30` = 30px margin-bottom)
 - Responsive variants: `.sage-mb-md-40`, `.sage-py-lg-60`, etc.
 
-**Color Utilities** (Defined per project in `_global.scss`, always use as classes in Blade, not SCSS):
-- `.color-{appearance}` for text color (e.g., `.color-dark-blue`, `.color-gold`)
+**Color Utilities** (Generated from `$colors-map`, always use as classes in Blade, not SCSS):
+- `.color-{appearance}` or `.{appearance}-color` for text color (e.g., `.color-dark-blue`, `.color-gold`)
 - `.bg-color-{appearance}` for background color (e.g., `.bg-color-dark-blue`, `.bg-color-off-white`)
+- `.border-color-{appearance}` for border color (combine with Bootstrap's `.border` utilities)
 - **Module Rule**: Always use color utility classes in Blade templates; never hardcode hex values
 
 **Typography Utilities** (Always use these in Blade, not SCSS):
@@ -628,7 +635,7 @@ Module SCSS files should contain ONLY:
 
 ### PostCSS & PurgeCSS
 - PurgeCSS runs on production builds only and scans: `app/**/*.php`, `resources/views/**/*.php`, `resources/js/**/*.js`
-- Safelist in `postcss.config.js`: WordPress classes, FontAwesome, Fancybox, Splide, Hamburgers
+- Safelist in `postcss.config.js`: WordPress classes, FontAwesome, Fancybox, Splide, Hamburgers, and the generated color utilities
 - Add dynamic classes to safelist if they're being stripped incorrectly
 
 ## Key Integration Points
