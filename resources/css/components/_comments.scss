@@ -10,14 +10,14 @@
   @extend .mb-3;
 }
 
-.comment-form input[type="text"],
-.comment-form input[type="email"],
-.comment-form input[type="url"],
+.comment-form input[type='text'],
+.comment-form input[type='email'],
+.comment-form input[type='url'],
 .comment-form textarea {
   @extend .form-control;
 }
 
-.comment-form input[type="submit"] {
+.comment-form input[type='submit'] {
   @extend .btn;
   @extend .btn-secondary;
 }

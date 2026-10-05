@@ -43,6 +43,7 @@ class App extends Composer
             if ($home = get_option('page_for_posts', true)) {
                 return get_the_title($home);
             }
+
             return __('Latest Posts', 'sage');
         }
         if (is_archive()) {
@@ -54,23 +55,24 @@ class App extends Composer
         if (is_404()) {
             return __('Not Found', 'sage');
         }
+
         return get_the_title();
     }
 
-
-    //------------------------------------------------//
-    //-------- PARENT/CHILD WP_NAV_MENU ARRAY --------//
-    //------------------------------------------------//
+    // ------------------------------------------------//
+    // -------- PARENT/CHILD WP_NAV_MENU ARRAY --------//
+    // ------------------------------------------------//
     // Creates multidimensional array of wp_nav_menu
     // Good for building navigation, dropdown menus, etc etc
 
-    public static function buildTree(array &$elements, $parentId = 0) {
-        $branch = array();
+    public static function buildTree(array &$elements, $parentId = 0)
+    {
+        $branch = [];
 
         foreach ($elements as &$element) {
             if ($element->menu_item_parent == $parentId) {
 
-                $children = buildTree( $elements, $element->ID );
+                $children = buildTree($elements, $element->ID);
                 if ($children) {
                     $element->children = $children;
                 }
@@ -80,14 +82,14 @@ class App extends Composer
 
             }
         }
+
         return $branch;
 
     }
 
-
-    //------------------------------------------------//
-    //------------- GET YOAST META BY ID -------------//
-    //------------------------------------------------//
+    // ------------------------------------------------//
+    // ------------- GET YOAST META BY ID -------------//
+    // ------------------------------------------------//
     // Gets Yoast meta by ID
     // Good for post sharing social media icons
 
@@ -105,7 +107,7 @@ class App extends Composer
             $twitter_meta_description = $meta['_yoast_wpseo_twitter-description'][0] ?? '';
             $twitter_meta_image = $meta['_yoast_wpseo_twitter-image'][0] ?? '';
 
-            array_push($data, array('twitter_title' => $twitter_meta_title, 'twitter_description' => $twitter_meta_description, 'twitter_image' => $twitter_meta_image));
+            array_push($data, ['twitter_title' => $twitter_meta_title, 'twitter_description' => $twitter_meta_description, 'twitter_image' => $twitter_meta_image]);
         }
 
         return $data;

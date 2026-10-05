@@ -26,12 +26,12 @@ class Post extends Composer
     public function override()
     {
         return [
-            'title'                      => $this->title(),
-            'post_id'                    => get_the_ID(),
-            'category'                   => $this->category(),
+            'title' => $this->title(),
+            'post_id' => get_the_ID(),
+            'category' => $this->category(),
             'featured_image_positioning' => get_field('post_featured_image_positioning'),
-            'previous_post'              => get_previous_post(),
-            'next_post'                  => get_next_post(),
+            'previous_post' => get_previous_post(),
+            'next_post' => get_next_post(),
         ];
     }
 

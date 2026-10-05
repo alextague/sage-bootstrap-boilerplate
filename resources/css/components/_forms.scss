@@ -1,6 +1,6 @@
-//------------------------------------------------//
-//-------------------- SEARCH --------------------//
-//------------------------------------------------//
+// ------------------------------------------------//
+// -------------------- SEARCH --------------------//
+// ------------------------------------------------//
 
 .search-form {
   @extend .row;
@@ -21,9 +21,9 @@
   @extend .btn-secondary;
 }
 
-//------------------------------------------------//
-//---------------- GRAVITY FORMS -----------------//
-//------------------------------------------------//
+// ------------------------------------------------//
+// ---------------- GRAVITY FORMS -----------------//
+// ------------------------------------------------//
 
 .gform_wrapper {
   .gform_validation_errors {
@@ -59,19 +59,19 @@
           }
 
           .ginput_container {
-            input[type="email"],
-            input[type="date"],
-            input[type="datetime"],
-            input[type="datetime-local"],
-            input[type="month"],
-            input[type="number"],
-            input[type="password"],
-            input[type="search"],
-            input[type="tel"],
-            input[type="text"],
-            input[type="time"],
-            input[type="week"],
-            input[type="url"],
+            input[type='email'],
+            input[type='date'],
+            input[type='datetime'],
+            input[type='datetime-local'],
+            input[type='month'],
+            input[type='number'],
+            input[type='password'],
+            input[type='search'],
+            input[type='tel'],
+            input[type='text'],
+            input[type='time'],
+            input[type='week'],
+            input[type='url'],
             select,
             textarea {
               @extend .form-control;
@@ -102,8 +102,8 @@
                 .gchoice {
                   @extend .form-check;
 
-                  input[type="checkbox"],
-                  input[type="radio"] {
+                  input[type='checkbox'],
+                  input[type='radio'] {
                     @extend .form-check-input;
                   }
 

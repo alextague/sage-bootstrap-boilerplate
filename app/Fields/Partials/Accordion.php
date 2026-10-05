@@ -2,9 +2,9 @@
 
 namespace App\Fields\Partials;
 
+use App\Fields\Traits\ModuleDocumentation;
 use Log1x\AcfComposer\Partial;
 use StoutLogic\AcfBuilder\FieldsBuilder;
-use App\Fields\Traits\ModuleDocumentation;
 
 class Accordion extends Partial
 {
@@ -13,7 +13,7 @@ class Accordion extends Partial
     /**
      * The partial field group.
      *
-     * @return \StoutLogic\AcfBuilder\FieldsBuilder
+     * @return FieldsBuilder
      */
     public function fields()
     {
@@ -51,58 +51,58 @@ class Accordion extends Partial
 
         $accordion
             ->addTab('content')
-                ->addFields($this->addModuleHelp(
-                    'Accordion',
-                    'Collapsible panels for organizing content into expandable sections.',
-                    'Best for FAQs, program requirements, location eligibility info, or any content users want to scan and selectively read.',
-                    'Add accordion items with titles and content. Configure expansion behavior in Settings tab.'
-                ))
-                ->addRepeater('accordion_items', [
-                    'button_label' => 'Add Accordion Item',
-                    'layout' => 'block',
-                ])
-                    ->addText('title', [
-                        'label' => 'Accordion Title',
-                        'required' => 1,
-                    ])
-                    ->addWysiwyg('content', [
-                        'label' => 'Content',
-                        'media_upload' => 1,
-                        'required' => 1,
-                    ])
-                ->endRepeater()
+            ->addFields($this->addModuleHelp(
+                'Accordion',
+                'Collapsible panels for organizing content into expandable sections.',
+                'Best for FAQs, program requirements, location eligibility info, or any content users want to scan and selectively read.',
+                'Add accordion items with titles and content. Configure expansion behavior in Settings tab.'
+            ))
+            ->addRepeater('accordion_items', [
+                'button_label' => 'Add Accordion Item',
+                'layout' => 'block',
+            ])
+            ->addText('title', [
+                'label' => 'Accordion Title',
+                'required' => 1,
+            ])
+            ->addWysiwyg('content', [
+                'label' => 'Content',
+                'media_upload' => 1,
+                'required' => 1,
+            ])
+            ->endRepeater()
             ->addTab('settings')
-                ->addTrueFalse('expand_first_panel', [
-                    'label' => 'Expand First Panel by Default',
-                    'default_value' => 0,
-                    'ui' => 1,
-                ])
-                ->addTrueFalse('allow_multiple_open', [
-                    'label' => 'Allow Multiple Panels Open',
-                    'message' => 'When disabled, opening one panel will close others',
-                    'default_value' => 0,
-                    'ui' => 1,
-                ])
-                ->addSelect('background_style', [
-                    'label' => 'Background Style',
-                    'choices' => [
-                        'none' => 'No Background',
-                        'light-gray' => 'Light Gray Background',
-                    ],
-                    'default_value' => 'none',
-                ])
-                ->addText('ID', [
-                    'label' => 'ID',
-                    'instructions' => 'HTML ID attribute for anchor links',
-                ])
-                ->addText('custom_classes', [
-                    'label' => 'Custom Classes',
-                    'instructions' => $this->getSpacingInstructions(),
-                ])
-                ->addText('custom_styles', [
-                    'label' => 'Custom Styles',
-                    'instructions' => 'Inline CSS styles',
-                ])
+            ->addTrueFalse('expand_first_panel', [
+                'label' => 'Expand First Panel by Default',
+                'default_value' => 0,
+                'ui' => 1,
+            ])
+            ->addTrueFalse('allow_multiple_open', [
+                'label' => 'Allow Multiple Panels Open',
+                'message' => 'When disabled, opening one panel will close others',
+                'default_value' => 0,
+                'ui' => 1,
+            ])
+            ->addSelect('background_style', [
+                'label' => 'Background Style',
+                'choices' => [
+                    'none' => 'No Background',
+                    'light-gray' => 'Light Gray Background',
+                ],
+                'default_value' => 'none',
+            ])
+            ->addText('ID', [
+                'label' => 'ID',
+                'instructions' => 'HTML ID attribute for anchor links',
+            ])
+            ->addText('custom_classes', [
+                'label' => 'Custom Classes',
+                'instructions' => $this->getSpacingInstructions(),
+            ])
+            ->addText('custom_styles', [
+                'label' => 'Custom Styles',
+                'instructions' => 'Inline CSS styles',
+            ])
             ->addFields($this->addHelpTab(
                 'accordion',
                 $usageGuide,

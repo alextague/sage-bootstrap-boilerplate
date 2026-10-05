@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class RecentPosts extends Component
@@ -11,7 +12,6 @@ class RecentPosts extends Component
      *
      * @return void
      */
-
     public $recent_posts;
 
     protected $postsPerPage;
@@ -36,7 +36,7 @@ class RecentPosts extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
     {

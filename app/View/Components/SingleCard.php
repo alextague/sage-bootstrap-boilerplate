@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class SingleCard extends Component
@@ -11,11 +12,14 @@ class SingleCard extends Component
      *
      * @return void
      */
-
     public $featured_image;
+
     public $post_title;
+
     public $excerpt;
+
     public $link;
+
     public $post_id;
 
     public function __construct($postId = null)
@@ -30,7 +34,7 @@ class SingleCard extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
     {

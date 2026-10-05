@@ -27,6 +27,6 @@ return [
         'accordion' => ['multi_expand' => 1],
         'group' => ['layout' => 'table', 'acfe_group_modal' => 1],
         'tab' => ['placement' => 'left'],
-        'sidebar_selector' => ['default_value' => 'sidebar-primary', 'allow_null' => 1]
+        'sidebar_selector' => ['default_value' => 'sidebar-primary', 'allow_null' => 1],
     ],
 ];

@@ -36,7 +36,7 @@ header.sage-header {
           border: none;
           height: 7px;
           width: 10px;
-          background-image: url("@images/down-arrow-small.svg");
+          background-image: url('@images/down-arrow-small.svg');
           background-size: contain;
           background-position: center center;
           background-repeat: no-repeat;
@@ -70,7 +70,7 @@ header.sage-header {
         padding: 0;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: calc(100% + 5px);
           height: 16px;
@@ -99,7 +99,6 @@ header.sage-header {
       }
     }
   }
-
 }
 
 #mobile_menu {

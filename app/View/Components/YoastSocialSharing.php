@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class YoastSocialSharing extends Component
@@ -11,31 +12,31 @@ class YoastSocialSharing extends Component
      *
      * @return void
      */
-
     public $share_text;
+
     public $share_to;
 
     protected $postId;
+
     protected $shareText;
+
     protected $shareToArray;
 
-    public function __construct($postId = null, $shareText, $shareToArray)
+    public function __construct($postId, $shareText, $shareToArray)
     {
         $this->share_to = [];
         $this->share_text = $shareText;
 
-        foreach($shareToArray as $item) {
-            if ($item == "facebook") {
-                $this->share_to[$item]["href"] = "https://www.facebook.com/sharer/sharer.php?u=".get_the_permalink($postId);
-                $this->share_to[$item]["fa_icon"] = "fa-facebook-f";
-            }
-            elseif($item == "twitter") {
-                $this->share_to[$item]["href"] = "https://twitter.com/intent/tweet?text=".$this->yoastMeta($postId)['twitter_title']."&url=".get_the_permalink($postId);
-                $this->share_to[$item]["fa_icon"] = "fa-twitter";
-            }
-            elseif($item == "linkedin") {
-                $this->share_to[$item]["href"] = "https://www.linkedin.com/shareArticle?mini=true&url=". get_the_permalink($postId)."&title=".$this->yoastMeta($postId)['twitter_title']."&summary=".$this->yoastMeta($postId)['twitter_description'];
-                $this->share_to[$item]["fa_icon"] = "fa-linkedin-in";
+        foreach ($shareToArray as $item) {
+            if ($item == 'facebook') {
+                $this->share_to[$item]['href'] = 'https://www.facebook.com/sharer/sharer.php?u='.get_the_permalink($postId);
+                $this->share_to[$item]['fa_icon'] = 'fa-facebook-f';
+            } elseif ($item == 'twitter') {
+                $this->share_to[$item]['href'] = 'https://twitter.com/intent/tweet?text='.$this->yoastMeta($postId)['twitter_title'].'&url='.get_the_permalink($postId);
+                $this->share_to[$item]['fa_icon'] = 'fa-twitter';
+            } elseif ($item == 'linkedin') {
+                $this->share_to[$item]['href'] = 'https://www.linkedin.com/shareArticle?mini=true&url='.get_the_permalink($postId).'&title='.$this->yoastMeta($postId)['twitter_title'].'&summary='.$this->yoastMeta($postId)['twitter_description'];
+                $this->share_to[$item]['fa_icon'] = 'fa-linkedin-in';
             }
         }
     }
@@ -65,7 +66,7 @@ class YoastSocialSharing extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
     public function render()
     {

@@ -53,7 +53,7 @@ class CTABanner extends Partial
         );
 
         $cta_banner
-        ->addTab('content')
+            ->addTab('content')
             ->addFields($this->addModuleHelp(
                 'CTA Banner',
                 'A full-width call-to-action banner with four style variations, supporting background video or image and flexible content layouts.',
@@ -67,12 +67,12 @@ class CTABanner extends Partial
                     <strong>Option 3:</strong> Background image with title and script accent center aligned in 1 column.<br/>
                     <strong>Option 4:</strong> Background image with an icon, eyebrow text, title, copy, and CTA button center aligned in 1 column.',
                 'choices' => [
-                    "option_1" => "Option 1",
-                    "option_2" => "Option 2",
-                    "option_3" => "Option 3",
-                    "option_4" => "Option 4",
+                    'option_1' => 'Option 1',
+                    'option_2' => 'Option 2',
+                    'option_3' => 'Option 3',
+                    'option_4' => 'Option 4',
                 ],
-                'default_value' => ["option_1"],
+                'default_value' => ['option_1'],
                 'ui' => 1,
                 'ajax' => 1,
                 'return_format' => 'value',
@@ -81,13 +81,13 @@ class CTABanner extends Partial
             ->addImage('icon', [
                 'label' => 'Icon',
             ])
-                ->conditional('style_option', '==', 'option_4')
+            ->conditional('style_option', '==', 'option_4')
 
             ->addText('eyebrow_text', [
                 'label' => 'Eyebrow Text',
             ])
-                ->conditional('style_option', '==', 'option_2')
-                    ->or('style_option', '==', 'option_4')
+            ->conditional('style_option', '==', 'option_2')
+            ->or('style_option', '==', 'option_4')
 
             ->addText('title', [
                 'label' => 'Title',
@@ -95,21 +95,21 @@ class CTABanner extends Partial
 
             ->addTextarea('copy', [
                 'label' => 'Copy',
-                'new_lines' => 'wpautop'
+                'new_lines' => 'wpautop',
             ])
-                ->conditional('style_option', '==', 'option_1')
-                    ->or('style_option', '==', 'option_2')
-                    ->or('style_option', '==', 'option_4')
+            ->conditional('style_option', '==', 'option_1')
+            ->or('style_option', '==', 'option_2')
+            ->or('style_option', '==', 'option_4')
 
             ->addText('script_text', [
                 'label' => 'Script Text',
             ])
-                ->conditional('style_option', '==', 'option_3')
+            ->conditional('style_option', '==', 'option_3')
 
             ->addLink('button')
-                ->conditional('style_option', '==', 'option_1')
-                    ->or('style_option', '==', 'option_2')
-                    ->or('style_option', '==', 'option_4')
+            ->conditional('style_option', '==', 'option_1')
+            ->or('style_option', '==', 'option_2')
+            ->or('style_option', '==', 'option_4')
 
             ->addImage('background_accent_left', [
                 'label' => 'Background Accent Left',
@@ -118,8 +118,8 @@ class CTABanner extends Partial
                     'width' => '50%',
                 ],
             ])
-                ->conditional('style_option', '==', 'option_1')
-                    ->or('style_option', '==', 'option_3')
+            ->conditional('style_option', '==', 'option_1')
+            ->or('style_option', '==', 'option_3')
 
             ->addImage('background_accent_right', [
                 'label' => 'Background Accent Right',
@@ -128,8 +128,8 @@ class CTABanner extends Partial
                     'width' => '50%',
                 ],
             ])
-                ->conditional('style_option', '==', 'option_1')
-                    ->or('style_option', '==', 'option_3')
+            ->conditional('style_option', '==', 'option_1')
+            ->or('style_option', '==', 'option_3')
 
             ->addTrueFalse('video_or_image', [
                 'label' => 'Video or Image Background',
@@ -140,8 +140,8 @@ class CTABanner extends Partial
                 'ui_on_text' => 'Image Background',
                 'ui_off_text' => 'Video Background',
             ])
-                ->conditional('style_option', '==', 'option_1')
-                    ->or('style_option', '==', 'option_2')
+            ->conditional('style_option', '==', 'option_1')
+            ->or('style_option', '==', 'option_2')
 
             ->addFile('background_video', [
                 'label' => 'Upload Video',
@@ -149,7 +149,7 @@ class CTABanner extends Partial
                     'width' => '50%',
                 ],
             ])
-                ->conditional('video_or_image', '==', '0')
+            ->conditional('video_or_image', '==', '0')
 
             ->addImage('background_image', [
                 'label' => 'Background Image',
@@ -157,23 +157,23 @@ class CTABanner extends Partial
                     'width' => '50%',
                 ],
             ])
-                ->conditional('video_or_image', '==', '1')
-                    ->or('style_option', '==', 'option_3')
-                    ->or('style_option', '==', 'option_4')
+            ->conditional('video_or_image', '==', '1')
+            ->or('style_option', '==', 'option_3')
+            ->or('style_option', '==', 'option_4')
 
             ->addTab('settings')
-                ->addText('ID')
-                ->addText('column_classes')
-                ->addText('custom_classes', [
-                    'instructions' => $this->getSpacingInstructions(),
-                ])
-                ->addText('custom_styles')
-                ->addText('background_image_positioning')
-                ->addFields($this->addHelpTab(
-                    'cta-banner',
-                    $usageGuide,
-                    $bestPractices
-                ));
+            ->addText('ID')
+            ->addText('column_classes')
+            ->addText('custom_classes', [
+                'instructions' => $this->getSpacingInstructions(),
+            ])
+            ->addText('custom_styles')
+            ->addText('background_image_positioning')
+            ->addFields($this->addHelpTab(
+                'cta-banner',
+                $usageGuide,
+                $bestPractices
+            ));
 
         return $cta_banner;
     }

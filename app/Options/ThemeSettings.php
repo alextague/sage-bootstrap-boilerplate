@@ -59,7 +59,7 @@ class ThemeSettings extends Field
     /**
      * Redirect to the first child page if one exists.
      *
-     * @var boolean
+     * @var bool
      */
     public $redirect = true;
 
@@ -107,17 +107,15 @@ class ThemeSettings extends Field
         $themeSettings = new FieldsBuilder('theme_settings');
 
         $themeSettings
-        ->addTab('branding')
+            ->addTab('branding')
             ->addImage('header_logo')
             ->addImage('footer_logo')
-
-        ->addTab('archive', [
-            'label' => 'Archive',
-        ])
+            ->addTab('archive', [
+                'label' => 'Archive',
+            ])
             ->addText('archive_title')
             ->addImage('archive_header_image')
-
-        ->addTab('contact_info')
+            ->addTab('contact_info')
             ->addText('address_1')
             ->addText('address_2')
             ->addText('city', [

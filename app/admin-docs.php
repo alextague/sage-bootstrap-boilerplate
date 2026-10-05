@@ -19,7 +19,7 @@ add_action('admin_menu', function () {
         'Documentation',                  // Menu title
         'edit_pages',                     // Capability
         'site-documentation',             // Menu slug
-        __NAMESPACE__ . '\\render_module_documentation_page',  // Callback
+        __NAMESPACE__.'\\render_module_documentation_page',  // Callback
         'dashicons-book-alt',             // Icon
         2                                 // Position (directly after Dashboard)
     );
@@ -31,7 +31,7 @@ add_action('admin_menu', function () {
         'Module Reference',               // Menu title
         'edit_pages',                     // Capability
         'site-documentation',             // Menu slug (same as parent)
-        __NAMESPACE__ . '\\render_module_documentation_page'  // Callback
+        __NAMESPACE__.'\\render_module_documentation_page'  // Callback
     );
 
     // Site Settings submenu
@@ -41,7 +41,7 @@ add_action('admin_menu', function () {
         'Site Settings',                  // Menu title
         'edit_pages',                     // Capability
         'site-settings-docs',             // Menu slug
-        __NAMESPACE__ . '\\render_site_settings_documentation_page'  // Callback
+        __NAMESPACE__.'\\render_site_settings_documentation_page'  // Callback
     );
 });
 
@@ -49,14 +49,14 @@ add_action('admin_menu', function () {
  * Enqueue admin styles for documentation
  */
 add_action('admin_enqueue_scripts', function ($hook) {
-    $css_file = get_template_directory() . '/resources/css/admin/acf-module-docs.css';
+    $css_file = get_template_directory().'/resources/css/admin/acf-module-docs.css';
 
     // Load on documentation pages
     if ($hook === 'toplevel_page_site-documentation' || $hook === 'documentation_page_site-settings-docs') {
         if (file_exists($css_file)) {
             wp_enqueue_style(
                 'module-docs',
-                get_template_directory_uri() . '/resources/css/admin/acf-module-docs.css',
+                get_template_directory_uri().'/resources/css/admin/acf-module-docs.css',
                 [],
                 filemtime($css_file)
             );
@@ -68,7 +68,7 @@ add_action('admin_enqueue_scripts', function ($hook) {
         if (file_exists($css_file)) {
             wp_enqueue_style(
                 'acf-module-help',
-                get_template_directory_uri() . '/resources/css/admin/acf-module-docs.css',
+                get_template_directory_uri().'/resources/css/admin/acf-module-docs.css',
                 ['acf-input'],
                 filemtime($css_file)
             );
@@ -122,7 +122,7 @@ function render_module_documentation_page()
 
         <!-- Module Cards -->
         <div style="margin-top: 30px; max-width: 1200px;">
-            <?php foreach ($modules as $module) : ?>
+            <?php foreach ($modules as $module) { ?>
             <div class="module-doc-card" style="background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                 <details>
                     <summary style="cursor: pointer; padding: 20px 25px; display: flex; align-items: center; gap: 20px; list-style: none; user-select: none;">
@@ -134,13 +134,13 @@ function render_module_documentation_page()
                                 <?php echo esc_html($module['description']); ?>
                             </p>
                         </div>
-                        <?php if (!empty($module['screenshot']) && file_exists(get_template_directory() . '/resources/images/admin/module-screenshots/' . basename($module['screenshot']))) : ?>
+                        <?php if (! empty($module['screenshot']) && file_exists(get_template_directory().'/resources/images/admin/module-screenshots/'.basename($module['screenshot']))) { ?>
                         <div style="flex-shrink: 0; width: 200px;">
                             <img src="<?php echo esc_url($module['screenshot']); ?>"
                                  alt="<?php echo esc_attr($module['name']); ?>"
                                  style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 3px;">
                         </div>
-                        <?php endif; ?>
+                        <?php } ?>
                         <span style="flex-shrink: 0; color: #0073aa; font-size: 20px;">▼</span>
                     </summary>
 
@@ -153,18 +153,18 @@ function render_module_documentation_page()
                             $module['screenshot2'] ?? '',
                             $module['screenshot3'] ?? '',
                         ]);
-                        if (count($screenshots) > 1) : ?>
+                if (count($screenshots) > 1) { ?>
                         <div style="margin-top: 20px;">
                             <h3 style="margin: 0 0 15px 0; font-size: 16px;">Layout Variations</h3>
                             <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                                <?php foreach ($screenshots as $screenshot) : ?>
+                                <?php foreach ($screenshots as $screenshot) { ?>
                                 <img src="<?php echo esc_url($screenshot); ?>"
                                      alt="<?php echo esc_attr($module['name']); ?>"
                                      style="max-width: 30%; height: auto; border: 1px solid #ddd; border-radius: 3px;">
-                                <?php endforeach; ?>
+                                <?php } ?>
                             </div>
                         </div>
-                        <?php endif; ?>
+                        <?php } ?>
 
                         <!-- Module Detail Grid -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
@@ -183,32 +183,32 @@ function render_module_documentation_page()
                         </div>
 
                         <!-- Best Practices -->
-                        <?php if (!empty($module['best_practices'])) : ?>
+                        <?php if (! empty($module['best_practices'])) { ?>
                         <div style="margin-top: 20px;">
                             <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #0073aa;">💡 Best Practices</h3>
                             <ul style="margin: 0; padding-left: 20px; line-height: 1.8; font-size: 14px; color: #444;">
-                                <?php foreach ($module['best_practices'] as $practice) : ?>
+                                <?php foreach ($module['best_practices'] as $practice) { ?>
                                 <li><?php echo wp_kses_post($practice); ?></li>
-                                <?php endforeach; ?>
+                                <?php } ?>
                             </ul>
                         </div>
-                        <?php endif; ?>
+                        <?php } ?>
 
                         <!-- Developer Docs Link -->
                         <div style="margin-top: 20px; padding: 12px 15px; background: #f6f7f7; border-radius: 3px; font-size: 13px; color: #666;">
                             📄 Developer reference: <code>docs/<?php echo strtoupper(str_replace('_', '-', $module['slug'])); ?>.md</code>
                             &nbsp;|&nbsp;
                             🔧 Field group: <code>app/Fields/Partials/<?php
-                                $class = str_replace('_', '', ucwords($module['slug'], '_'));
-                                // Handle special cases
-                                $class = str_replace('5050', '5050', $class);
-                                echo esc_html($class);
-                            ?>.php</code>
+                        $class = str_replace('_', '', ucwords($module['slug'], '_'));
+                // Handle special cases
+                $class = str_replace('5050', '5050', $class);
+                echo esc_html($class);
+                ?>.php</code>
                         </div>
                     </div>
                 </details>
             </div>
-            <?php endforeach; ?>
+            <?php } ?>
         </div>
     </div>
     <?php
@@ -376,7 +376,7 @@ function get_module_documentation_data()
             'name' => 'Accordion',
             'slug' => 'accordion',
             'description' => 'Collapsible panels for organizing content into expandable sections.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/accordion.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/accordion.png',
             'when_to_use' => 'Use for FAQs, program requirements, eligibility criteria, or any content users want to scan and selectively read.',
             'how_to_use' => 'Add accordion items using the repeater — each item needs a title (the clickable header) and content (the expanded body). In Settings, configure whether the first panel opens by default and whether multiple panels can be open at once.',
             'best_practices' => [
@@ -393,7 +393,7 @@ function get_module_documentation_data()
             'name' => 'Card Grid',
             'slug' => 'card_grid',
             'description' => 'A responsive grid of visual cards with background images and call-to-action links.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/card-grid.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/card-grid.png',
             'when_to_use' => 'Use to showcase services, team highlights, portfolio items, or any content that benefits from a visual card format with clickable links.',
             'how_to_use' => 'Toggle the background color (White or Blue), optionally add a title and intro copy, then use the Cards repeater to add each card — each needs a link (text + URL) and a background image.',
             'best_practices' => [
@@ -410,8 +410,8 @@ function get_module_documentation_data()
             'name' => 'Carousel',
             'slug' => 'carousel',
             'description' => 'Auto-scrolling image carousel with two variations: continuous logo display or navigable gallery slideshow.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/carousel-logos.png',
-            'screenshot2' => $template_uri . '/resources/images/admin/module-screenshots/carousel-gallery-images.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/carousel-logos.png',
+            'screenshot2' => $template_uri.'/resources/images/admin/module-screenshots/carousel-gallery-images.png',
             'when_to_use' => 'Use the Logos variation for partner/sponsor showcases. Use the Gallery variation for photo highlights, event galleries, or visual storytelling.',
             'how_to_use' => 'Add an optional title, select a variation (Logos or Gallery Images), upload images in the gallery field, and optionally add a button for the Gallery variation.',
             'best_practices' => [
@@ -428,7 +428,7 @@ function get_module_documentation_data()
             'name' => 'Contact Form',
             'slug' => 'contact_form',
             'description' => 'Embeds a Contact Form 7 form with an optional background image in a styled full-width layout.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/contact-form.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/contact-form.png',
             'when_to_use' => 'Use on contact pages or landing pages to collect user inquiries. Requires Contact Form 7 to be installed and a form configured before use.',
             'how_to_use' => 'Select a Contact Form 7 form from the dropdown and optionally upload a background image. Ensure CF7 mail settings and confirmation messages are configured before going live.',
             'best_practices' => [
@@ -445,7 +445,7 @@ function get_module_documentation_data()
             'name' => 'Contact Info',
             'slug' => 'contact_info',
             'description' => 'Displays business contact details — name, website, email, phone, and Google Maps link — alongside a section title and body copy.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/contact-info.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/contact-info.png',
             'when_to_use' => 'Use on contact pages or location sections where providing direct contact details alongside an introduction is needed.',
             'how_to_use' => 'Fill in the contact fields that apply (all are optional — leave blank to hide), then add a title and copy for context. Email and phone are automatically wrapped in clickable links.',
             'best_practices' => [
@@ -462,7 +462,7 @@ function get_module_documentation_data()
             'name' => 'CTA Banner',
             'slug' => 'cta_banner',
             'description' => 'Full-width call-to-action banner with four style variations supporting background video or image and flexible content layouts.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/cta-banner.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/cta-banner.png',
             'when_to_use' => 'Use to drive user action at strategic points throughout a page. Choose the style option that best matches the surrounding design context.',
             'how_to_use' => 'Select a style option (1–4), fill in the content fields shown for that style (title, copy, button, eyebrow text as applicable), and choose a video or image background.',
             'best_practices' => [
@@ -480,7 +480,7 @@ function get_module_documentation_data()
             'name' => 'Freeform Content',
             'slug' => 'freeform_content',
             'description' => 'A flexible WYSIWYG content area with full editor capabilities and media upload for maximum editorial freedom.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/freeform-content.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/freeform-content.png',
             'when_to_use' => 'Use when you need complete control over formatting, want to insert images within text, or have complex content that structured modules can\'t accommodate. Ideal for importing content or when other modules are too restrictive.',
             'how_to_use' => 'Add content in the WYSIWYG editor with full formatting options. Insert images and media using the Add Media button. Choose text size (Regular or Small) in the Settings tab.',
             'best_practices' => [
@@ -498,7 +498,7 @@ function get_module_documentation_data()
             'name' => 'Image & Text 50/50',
             'slug' => 'image_text_50_50',
             'description' => 'Split-screen layout with an image on one side and text content on the other — with two style variations and image side toggle.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/image-text-50-50.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/image-text-50-50.png',
             'when_to_use' => 'Use to pair a visual with descriptive copy for services, team bios, features, or any content that benefits from an image alongside text.',
             'how_to_use' => 'Select a style (Option 1 for standard, Option 2 for blog-card style), toggle the image side (left or right), upload an image, then add title and copy. For Option 1, also add optional eyebrow text and a button.',
             'best_practices' => [
@@ -516,7 +516,7 @@ function get_module_documentation_data()
             'name' => 'Logo Grid',
             'slug' => 'logo_grid',
             'description' => 'A responsive grid of partner, sponsor, or client logos with optional title, intro copy, and per-logo links.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/logo-grid.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/logo-grid.png',
             'when_to_use' => 'Use to showcase partners, sponsors, clients, or affiliations. Works well as a trust-building section on home pages, about pages, or event pages.',
             'how_to_use' => 'Optionally add a title and copy above the grid, then use the Logos repeater to add each logo. For each logo, upload the image and optionally add a link URL. Logos without a URL display without a link.',
             'best_practices' => [
@@ -533,7 +533,7 @@ function get_module_documentation_data()
             'name' => 'Text',
             'slug' => 'text',
             'description' => 'Flexible text content module with three layout variations: 1 Column Centered, 1 Column Left Aligned, or 2 Columns side-by-side.',
-            'screenshot' => $template_uri . '/resources/images/admin/module-screenshots/text.png',
+            'screenshot' => $template_uri.'/resources/images/admin/module-screenshots/text.png',
             'when_to_use' => 'One of the most commonly used modules. Use for body copy, section introductions, and any text-heavy content. Choose the layout that fits the design context.',
             'how_to_use' => 'Enter a title, choose a title size (Regular or Larger), and add copy in the WYSIWYG editor. In the Settings tab, select the column layout. For Left Aligned, an optional Eyebrow field appears.',
             'best_practices' => [

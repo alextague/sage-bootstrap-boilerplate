@@ -18,21 +18,21 @@ class StandardHeader extends Partial
 
         $standardHeader->addText('standard_title', [
             'conditional_logic' => [
-                "field" => "header_type",
-                "operator" => "==",
-                "value" => "standard"
-            ]
+                'field' => 'header_type',
+                'operator' => '==',
+                'value' => 'standard',
+            ],
         ])
-        ->addText('standard_featured_image_positioning', [
-            'label' => 'Featured Image Position',
-            'instructions' => 'CSS object-position values (e.g., "50% 0", "center top", "left center")',
-            'default_value' => '50% 50%',
-            'conditional_logic' => [
-                "field" => "header_type",
-                "operator" => "==",
-                "value" => "standard"
-            ]
-        ]);
+            ->addText('standard_featured_image_positioning', [
+                'label' => 'Featured Image Position',
+                'instructions' => 'CSS object-position values (e.g., "50% 0", "center top", "left center")',
+                'default_value' => '50% 50%',
+                'conditional_logic' => [
+                    'field' => 'header_type',
+                    'operator' => '==',
+                    'value' => 'standard',
+                ],
+            ]);
 
         return $standardHeader;
     }
