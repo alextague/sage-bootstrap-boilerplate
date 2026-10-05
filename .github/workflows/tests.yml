@@ -32,7 +32,11 @@ jobs:
           coverage: none
 
       - name: Install Node dependencies
-        run: npm ci
+        run: npm ci --include=optional
+
+      - name: Ensure Linux Rollup binary
+        run: |
+          node -e "require.resolve('@rollup/rollup-linux-x64-gnu')" || npm i --no-save @rollup/rollup-linux-x64-gnu
 
       - name: Install Composer dependencies
         run: composer install --no-dev --optimize-autoloader --prefer-dist --no-progress
