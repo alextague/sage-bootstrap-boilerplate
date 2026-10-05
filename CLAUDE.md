@@ -1,6 +1,6 @@
 # Sage Vite with Bootstrap Boilerplate — WordPress Theme
 
-This is a **Roots Sage 11** WordPress theme using Laravel Acorn, Blade templating, Vite, Bootstrap 5, and ACF (Advanced Custom Fields) for page building.
+This is a **Roots Sage 11.2** WordPress theme using Laravel Acorn 6 (Laravel 13 components), Blade templating, Vite 8, Bootstrap 5, and ACF (Advanced Custom Fields) for page building.
 
 ## ⚠️ CRITICAL: File Change Authorization Rules
 
@@ -36,7 +36,7 @@ When working on a specific module or feature:
 2. **ASK PERMISSION FIRST** before editing any file that is not explicitly part of the current work
 3. **IMMEDIATELY INFORM the user** of all files that will be edited before making changes
 4. **STAY FOCUSED** — Do not fix, clean up, or improve code in files that are not part of the current task, even if you notice issues
-5. **NO BATCH FORMATTING** — Never run code formatters, linters, or make style consistency changes across multiple files without explicit instruction
+5. **NO BATCH FORMATTING** — Never run code formatters or fixers across multiple files without explicit instruction. Note that `composer lint:fix` and `npm run lint:fix` rewrite files; `composer lint` and `npm run lint` only check.
 
 **Example of WRONG behavior**: Working on a module and editing 50+ unrelated PHP files to "fix formatting"
 **Example of RIGHT behavior**: Working on a module and ONLY editing that module's files
@@ -46,11 +46,12 @@ This is not optional — unauthorized edits create merge conflicts, complicate c
 ## Architecture
 
 ### Core Stack
-- **PHP Framework**: Laravel components via Roots Acorn (IoC container, service providers, Blade views)
+- **PHP Framework**: Laravel components via Roots Acorn 6 (IoC container, service providers, Blade views). Requires PHP 8.4.
 - **Templating**: Laravel Blade (`.blade.php` files in `resources/views/`)
 - **Page Builder**: ACF Flexible Content with modular layouts
-- **Styles**: SCSS with Bootstrap 5 (custom 24-column grid)
-- **Build Tool**: Vite with Laravel plugin and hot module reload
+- **Editor**: The block editor (Gutenberg) is disabled for all post types and widgets in `app/setup.php`, and block library and global styles are dequeued on the front end. There is no `theme.json` and no editor stylesheet or script. Do not add Gutenberg blocks, block styles, `theme.json`, or editor assets.
+- **Styles**: SCSS using the Sass module system (`@use`/`@forward`) with Bootstrap 5 (custom 24-column grid). See **SCSS Module System** below.
+- **Build Tool**: Vite 8 with the Laravel plugin and hot module reload. Requires Node `^20.19.0 || >=22.12.0`.
 - **JavaScript**: ES modules with dynamic imports for module-specific code
 
 ### File Structure Patterns
@@ -59,7 +60,7 @@ This is not optional — unauthorized edits create merge conflicts, complicate c
 1. PHP field definition: `app/Fields/Partials/CardGrid.php` (using ACF Composer)
 2. PHP field registration: `app/Fields/Builder.php` adds layout with `->addLayout('card_grid')`
 3. Blade template: `resources/views/modules/card-grid.blade.php` (underscores → dashes)
-4. SCSS: `resources/css/modules/_card-grid.scss` (imported in `app.scss` or via JS file)
+4. SCSS: `resources/css/modules/_card-grid.scss` (loaded with `@use` in `app.scss`, or imported by the module's JS file)
 5. JS (optional): `resources/js/modules/card-grid.js` (auto-loaded when body has `card-grid-js` class)
 
 **View Composers** in `app/View/Composers/` prepare data for Blade views (e.g., `PageBuilder.php` processes ACF flexible content into `$page_builder` variable).
@@ -89,29 +90,40 @@ This is not optional — unauthorized edits create merge conflicts, complicate c
 
 ### Setup & Build
 ```bash
-composer install              # Install PHP dependencies
-npm install                   # Install JS dependencies
+composer install              # Install PHP dependencies (also installs the Local site's plugins, see below)
+npm ci                        # Install JS dependencies from the lockfile
 npm run dev                   # Vite dev server with HMR
 npm run build                 # Production build
 ```
 
 **IMPORTANT**: Do NOT run `npm run build` during development. This project uses Vite with HMR (Hot Module Reload), so changes to SCSS/JS are automatically compiled and reflected in the browser without building. Only run build commands when explicitly requested by the user.
 
-### Testing
+**After switching branches**, run `npm ci` (and `composer install`) — `node_modules` and `vendor` are not switched with the branch, so a stale install can build with the wrong package versions.
+
+### Composer and WordPress Plugins
+- The WordPress plugins in `require-dev` (ACF Pro, Yoast, Gravity Forms, WP Migrate DB Pro, etc.) install into the site's `wp-content/plugins/` folder via `installer-paths`. Running `composer update` updates those plugins on the Local site too, so don't run a full update unless asked.
+- Gravity Forms' version is fixed in its package definition in the `repositories` section of `composer.json`.
+- `pestphp/pest` and `laravel/pint` are intentionally in `require`, not `require-dev`. Deployments previously failed without them, so don't move them without validating the deploy workflow first.
+- Don't add `pestphp/pest-plugin-laravel`: it pulls the full `laravel/framework` into the theme, which conflicts with Acorn and WordPress (e.g. a `Cannot redeclare function __()` fatal error).
+- After removing a Composer package that registers a service provider, clear Acorn's cache (`wp acorn optimize:clear`), or the site will 500 looking for the removed provider.
+
+### Testing and Linting
 ```bash
 npm test                      # Run all tests (JS + PHP)
 npm run test:js               # Run JavaScript tests with Jest
 npm run test:js:watch         # Run Jest in watch mode
-npm run test:js:coverage      # Generate coverage report
+npm run test:js:coverage      # Generate coverage report (V8)
 composer test                 # Run PHP tests with Pest
-composer lint                 # Run PHP linter (Pint)
-npm run lint                  # Run JS/CSS linters
+composer lint                 # Check PHP formatting with Pint (no changes)
+composer lint:fix             # Fix PHP formatting with Pint
+npm run lint                  # Check JS (ESLint) and SCSS (stylelint)
+npm run lint:fix              # Fix JS and SCSS lint issues
 ```
 
-Tests run automatically on pull requests via GitHub Actions.
+Tests and linters run automatically on pull requests into `develop` and `main` via GitHub Actions. The JS and PHP test steps pass when there are no tests.
 
 ### Configuration
-- Update `vite.config.js` `base` path to match your theme's public/build folder path (e.g., `/app/themes/your-theme-name/public/build/`)
+- Update `vite.config.js` `base` path to match the theme's folder name: `/wp-content/themes/your-theme-name/public/build/`. If it doesn't match the folder the theme is installed in, lazy-loaded module JS and CSS font/image URLs will 404.
 - Set `APP_URL` in `.env` to match your site URL (for Local, use the site's development URL)
 - ACF fields are programmatically generated via ACF Composer (see below)
 
@@ -125,14 +137,14 @@ Tests run automatically on pull requests via GitHub Actions.
    - Conditionally render ID, custom_classes, and custom_styles attributes on root element
    - **CRITICAL**: Any HTML IDs used within a module MUST be unique. Always use the module's `$module->uid` property to create unique IDs (e.g., `id="videoModal-{{ $module->uid }}"`). Multiple instances of the same module may exist on a page, so hardcoded IDs will cause conflicts.
 4. Add SCSS: `resources/css/modules/_your-module.scss`
+   - Start the file with `@use '../common/tools' as *;` if it uses theme variables, `rem-calc()`, or breakpoint mixins (see **SCSS Module System**)
    - **If module has JS**:
      - Import CSS in the JS file (`import '../../css/modules/_your-module.scss';`) for automatic lazy loading
      - Import third-party CSS in the JS file if needed
-     - Add `@import "../common/shared";` at the top of the SCSS file to access Bootstrap mixins, variables, and functions
-     - Do NOT import module CSS in `app.scss`
+     - Do NOT load module CSS in `app.scss`
    - **If module has no JS**:
-     - Import in `app.scss` (`@import "modules/your-module";`)
-5. Add JS if needed: `resources/js/modules/your-module.js` (auto-loads when body has `your-module-js` class)
+     - Load it in `app.scss` with `@use 'modules/your-module';`
+5. Add JS if needed: `resources/js/modules/your-module.js` (auto-loads when the page builder includes the module, see **JavaScript Module Loading**)
    - Import third-party CSS first (so module styles can override)
    - Import module CSS second
    - Import JS dependencies last
@@ -153,21 +165,26 @@ Tests run automatically on pull requests via GitHub Actions.
 ### Testing Modules
 **When to create tests**:
 - ✅ **REQUIRED**: Module has JavaScript interactivity (DOM manipulation, events, dynamic behavior, video modals, etc.)
-- ✅ **Recommended**: Complex data transformation in view composers or custom business logic
+- ✅ **Recommended**: Complex data transformation in view composers, Blade components, or custom business logic
 - ❌ **Optional**: Simple markup-only modules without JS or complex logic
 
-**JavaScript Tests** (`tests/js/modules/your-module.test.js`):
+**JavaScript Tests** (`tests/js/**/*.test.js`):
 - Test DOM interactions, event handlers, and dynamic behavior
-- Use Jest framework with DOM testing utilities
+- Jest runs tests as **native ES modules** (`--experimental-vm-modules`) with **no Babel** — `jest.config.js` sets `transform: {}`. Don't add Babel, `babel-jest`, or a Babel config.
+- Import Jest APIs from `@jest/globals` (the `jest` global isn't injected in ES-module mode)
+- The test environment is jsdom; shared setup lives in `tests/setup.js`, and stylesheet imports are mocked by `tests/__mocks__/styleMock.js`
 - Run with: `npm run test:js` or `npm run test:js:watch`
 
-**PHP Tests** (`tests/Unit/` or `tests/Feature/`):
-- Test ACF field validation, view composer logic, or data processing
-- Use Pest framework
+**PHP Tests** (`tests/Unit/*Test.php` or `tests/Feature/*Test.php`):
+- Test view composer logic, Blade components, or data processing with Pest
+- Only files ending in `Test.php` are run (`phpunit.xml`)
+- Tests run without WordPress. Stub the WordPress functions a class needs in `tests/Stubs/wordpress.php` and control their return values with `$GLOBALS['wp_stubs']` (see `tests/Unit/ResponsiveImageComponentsTest.php`)
 - Run with: `composer test`
 
 **Test Structure Example**:
 ```javascript
+import { beforeEach, describe, expect, test } from '@jest/globals';
+
 describe('Your Module', () => {
   beforeEach(() => {
     document.body.innerHTML = `<div class="your-module">...</div>`;
@@ -188,6 +205,22 @@ describe('Your Module', () => {
 - **Body Classes**: Add `-js` suffix for JS module loading (e.g., `card-grid-js`)
 - **CSS Classes**: ALWAYS use kebab-case with dashes only — NEVER use underscores (e.g., `text-left`, `single-full`, NOT `text_left` or `single_full`)
 - **CSS Classes**: Use `sage-*` prefix for spacing utilities (e.g., `sage-mb-20`, `sage-py-50`)
+
+### SCSS Module System
+The theme's SCSS uses `@use` and `@forward`. **Never use `@import`** — stylelint blocks it outside `resources/css/vendor/`, and Dart Sass 3 will remove it.
+
+- **`common/_tools.scss`** forwards the shared variables (`_variables.scss`), functions (`rem-calc()`, `unitless-calc()`, `strip-unit()`), mixins (`responsive-font`), and Bootstrap's breakpoint mixins (`_breakpoints.scss`, which default to the theme's `$grid-breakpoints`). It outputs **no CSS**, so any partial can load it, including lazy-loaded module styles:
+  ```scss
+  @use '../common/tools' as *;
+  ```
+- **`vendor/_bootstrap.scss`** holds the included Bootstrap components and the theme's overrides for Bootstrap's `!default` variables (grid, container widths, `$white`, `$black`). Bootstrap 5 isn't written for Sass modules, so this is the only file that still uses `@import`. To include another Bootstrap component, uncomment it there. If a theme variable shares a name with a Bootstrap variable, pass it through at the top of that file.
+- **`vendor/_hamburgers.scss`** configures Hamburgers from the `$hamburger-*` theme variables with `@use ... with (...)`. Only variables that hamburgers 1.2.1 defines can be passed.
+- **Bootstrap members** (e.g. `$spacer`, or extending Bootstrap classes) come from `@use '../vendor/bootstrap';` and are namespaced: `bootstrap.$spacer`. Only load it in partials that are part of `app.scss` — it outputs all of Bootstrap's CSS, so never load it in lazy-loaded module styles.
+- **`@extend` only reaches modules the file loads.** A partial that extends a selector must `@use` the module where that selector is styled. For example, `components/_forms.scss` loads `vendor/bootstrap`, `common/helper`, and `buttons` because it extends `.btn`, `.row`, and `.mb-3`. Bootstrap's own `.h1`–`.h6`, `.small` and `.mark` extends are repeated at the end of `app.scss` so they also apply to the theme's heading styles.
+- **Built-in functions**: use the `sass:` modules — `@use 'sass:math';` for `math.div()`, `@use 'sass:map';` for `map.get()`, etc. — not global functions like `map-get()` or `unit()` (stylelint enforces this). Use `@if`/`@else` instead of the `if()` function.
+- **`app.scss`** loads every partial with `@use`, and the order of those rules is the order the CSS is output in.
+- **Fonts** are loaded once in `common/_fonts.scss` via `app.scss`. Don't load fonts in module styles.
+- `vite.config.js` sets `quietDeps` (hides deprecation warnings from inside npm packages) and silences only the `import` deprecation for the Bootstrap wrapper. Fix new Sass warnings in theme code rather than silencing them.
 
 ### Bootstrap Grid Customization
 - **24-column grid** instead of default 12 (see `resources/css/common/_variables.scss`)
@@ -243,9 +276,10 @@ Reference existing button classes when adding buttons to modules. If a module re
 
 ### JavaScript Module Loading
 Modules auto-load based on body classes:
-- Body class `card-grid-js` → loads `resources/js/modules/card-grid.js`
-- Single post types: `single-team` body class → loads `single-team.js`
-- Module JS files use dynamic imports via `import.meta.glob`
+- The `body_class` filter in `app/filters.php` adds `{module-name}-js` for each page builder module on the page that has a matching `resources/js/modules/{module-name}.js` file
+- `resources/js/app.js` reads the `-js` body classes and dynamically imports the matching module via `import.meta.glob`
+- Example: a page with an Accordion module gets the `accordion-js` body class, which loads `resources/js/modules/accordion.js`
+- To load module JS on a template that isn't built with the page builder (e.g. a custom post type single), add the `-js` body class for it in the `body_class` filter
 - **CRITICAL**: The `-js` class suffix is dynamically added to the `<body>` element, NOT to the module's wrapper div. Never add module JS classes to the module template itself.
 
 ### Slider / Carousel Library
@@ -359,7 +393,7 @@ Use the `ModuleDocumentation` trait (`app/Fields/Traits/ModuleDocumentation.php`
 ### Custom Post Types
 
 **Pattern for adding Custom Post Types**:
-1. Register in `config/post-types.php` with Extended CPTs library
+1. Register in `config/post-types.php` (create it if it doesn't exist yet) using `roots/acorn-post-types` (Extended CPTs)
 2. Create ACF field group in `app/Fields/{PostType}Settings.php` extending `Field`
 3. For archives: Create `archive-{post-type}.blade.php` template
 4. For components: Create class-based component in `app/View/Components/` that fetches its own data
@@ -373,6 +407,10 @@ Use the `ModuleDocumentation` trait (`app/Fields/Traits/ModuleDocumentation.php`
 - **Module data access**: In Blade, access fields via `$module->field_name` (e.g., `$module->title`, `$module->cards`)
 - **View Composers**: All data processing, queries, and logic must be handled in View Composers, NOT in Blade templates
 - **Blade Template Rule**: Blade templates should only handle presentation/markup — no PHP logic blocks, variable assignments, or function calls for data retrieval
+
+**CRITICAL: Composer data and `override()`**:
+- Acorn only exposes a composer's public methods to its views automatically when `with()` and `override()` both return nothing.
+- If a composer returns data from `with()` or `override()`, every variable the view needs must be in that array. To pass a method that the view both calls and echoes (like `$pagination()` / `{!! $pagination !!}`), use `$this->createInvokableVariable('methodName')` (see `app/View/Composers/Post.php`).
 
 **CRITICAL: Keep PageBuilder Composer Clean**:
 - The `PageBuilder.php` composer should remain minimal — it only loops through modules and creates objects
@@ -429,6 +467,11 @@ class YourModule extends Composer
 @endphp
 ```
 
+### Responsive Images
+- `<x-acf-image :image-id="$id" size="full" srcset-sizes="100vw"/>` for ACF image IDs, and `<x-featured-image :image-id="$post_id" srcset-sizes="100vw"/>` for a post's featured image. Both render `resources/views/components/responsive-image.blade.php`.
+- `srcset-sizes` sets the `sizes` attribute (default `100vw`); it's only output when the image has a `srcset`. Pass a narrower value for images that don't span the viewport (e.g. `(min-width: 992px) 50vw, 100vw`).
+- Both components must accept a `$srcsetSizes` constructor parameter and declare a public `$sizes` property — `tests/Unit/ResponsiveImageComponentsTest.php` checks this.
+
 ### Asset References
 **In Blade templates**: Use `Vite::asset()` method for images and static assets:
 ```blade
@@ -445,6 +488,8 @@ background-image: url("@images/example.svg");
 use Illuminate\Support\Facades\Vite;
 $asset = Vite::asset('resources/images/example.svg');
 ```
+
+Images and fonts in `resources/images/` and `resources/fonts/` are included in the build through the `assets` option in `vite.config.js`.
 
 ### Styling Guidelines
 **CRITICAL: Always use utility classes in Blade templates — NEVER write these styles in SCSS files:**
@@ -508,10 +553,11 @@ Module SCSS files should contain ONLY:
 - Classes should be nested under the parent module class for proper scoping
 
 **Responsive Breakpoints**:
-- **CRITICAL: NEVER use raw @media queries** — Always use Bootstrap mixins
+- **CRITICAL: NEVER use raw @media queries** — Always use the breakpoint mixins from `common/tools`
 - Use `@include media-breakpoint-up(breakpoint)` for min-width queries
 - Use `@include media-breakpoint-down(breakpoint)` for max-width queries
 - Use `@include media-breakpoint-between(lower, upper)` for range queries
+- Use `@include media-breakpoint-only(breakpoint)` for a single breakpoint range
 - Available breakpoints: `xs`, `sm`, `md`, `lg`, `xl`, `xxl`
 - Example: `@include media-breakpoint-down(md)` NOT `@media (width <= 991px)`
 
@@ -522,6 +568,8 @@ Module SCSS files should contain ONLY:
 
 **Module SCSS Example** (What's allowed):
 ```scss
+@use '../common/tools' as *;
+
 .my-module {
   background: linear-gradient(90deg, #b88508 0%, #fdde92 100%);
 
@@ -563,12 +611,13 @@ Module SCSS files should contain ONLY:
 ```
 
 **CRITICAL SCSS Rules**:
-1. **NEVER use raw @media queries** — Always use Bootstrap mixins (`@include media-breakpoint-down(md)`)
+1. **NEVER use raw @media queries** — Always use the breakpoint mixins (`@include media-breakpoint-down(md)`)
 2. **NEVER add CSS properties that have utility class equivalents** — Check the utility classes list first
 3. **NEVER re-add CSS that has been removed** — If CSS is removed, assume it was intentional unless explicitly told otherwise
 4. **NEVER use manual padding/margin for grid gaps** — Use `.sage-g-{size}` custom gutter classes instead
 5. **NEVER add unnecessary default values** — Don't add `height: auto` or similar defaults
 6. **ALWAYS check existing project utilities** — The project has extensive utility classes and custom helpers
+7. **NEVER use `@import`** — Use `@use`/`@forward` (see **SCSS Module System**)
 
 **Line Height**: Always express as a unitless decimal value calculated by dividing the pixel line-height by the pixel font-size. For example: if line-height is 81px and font-size is 64px, use `line-height: 1.265625;` (81 ÷ 64)
 
@@ -578,7 +627,7 @@ Module SCSS files should contain ONLY:
 - Prefer global `.sage-p`, `h2`, etc. classes over custom sizes
 
 ### PostCSS & PurgeCSS
-- PurgeCSS scans: `app/**/*.php`, `resources/views/**/*.php`, `resources/js/**/*.js`
+- PurgeCSS runs on production builds only and scans: `app/**/*.php`, `resources/views/**/*.php`, `resources/js/**/*.js`
 - Safelist in `postcss.config.js`: WordPress classes, FontAwesome, Fancybox, Splide, Hamburgers
 - Add dynamic classes to safelist if they're being stripped incorrectly
 
@@ -595,20 +644,25 @@ Module SCSS files should contain ONLY:
 - `app/Fields/Builder.php` — ACF flexible content registration
 - `app/View/Composers/PageBuilder.php` — Processes ACF data for templates
 - `resources/views/partials/page-builder.blade.php` — Main module loop
+- `app/setup.php` — Theme supports, menus, sidebars, and block editor removal
+- `app/filters.php` — Body classes for module JS loading, admin customizations
+- `resources/css/app.scss` — Loads all stylesheets with `@use`, in output order
+- `resources/css/common/_tools.scss` — Shared SCSS variables, functions, and mixins
 - `resources/css/common/_variables.scss` — Grid system and colors
+- `resources/css/vendor/_bootstrap.scss` — Included Bootstrap components and overrides
 - `vite.config.js` — Build configuration (update `base` path per project)
 - `postcss.config.js` — PurgeCSS safelist (add dynamic classes here)
 
 ## Deployment
 
 ### WPEngine Deployment via GitHub Actions
-The theme deploys automatically to WPEngine when code is pushed to `main` (production) or `develop` (staging).
+The theme deploys automatically to WPEngine when code is pushed to `main` (production) or `develop` (staging). Pull requests labelled `deploy-dev` deploy to the dev environment, and any environment can be deployed manually from the Actions tab (`workflow_dispatch`).
 
 **Deployment Process**:
-1. Push/merge to `main` or `develop` triggers the GitHub Actions workflow
+1. Push/merge to `main` or `develop` (or a `deploy-dev` label, or a manual run) triggers the GitHub Actions workflow
 2. Workflow builds assets (`npm run build`) and installs production Composer dependencies
-3. Deploys theme via rsync to the configured WPEngine environment
-4. Runs `post-deploy.sh` to activate theme (if needed) and rebuild Acorn caches
+3. Deploys theme via rsync to the configured WPEngine environment. Development files (`.github/`, `tests/`, `CLAUDE.md`, `.claude/`, lint configs, etc.) are excluded.
+4. Runs `.github/scripts/post-deploy.sh` to activate theme (if needed) and rebuild Acorn caches
 
 **Per-Project Setup** (set once in GitHub → Settings, no workflow file edits needed):
 
@@ -618,6 +672,7 @@ GitHub → Settings → **Secrets and variables → Actions → Variables**:
 | `THEME_SLUG` | `my-client-theme` | Folder name of the theme on WPEngine |
 | `WPE_ENV_PRODUCTION` | `myclientprod` | WPEngine install name for production |
 | `WPE_ENV_STAGING` | `myclientstg` | WPEngine install name for staging |
+| `WPE_ENV_DEV` | `myclientdev` | WPEngine install name for dev |
 
 GitHub → Settings → **Secrets and variables → Actions → Secrets**:
 | Secret | Description |
@@ -630,7 +685,7 @@ GitHub → Settings → **Secrets and variables → Actions → Secrets**:
 3. Add the **private key** as the `WPE_SSHG_KEY_PRIVATE` secret in GitHub
 
 **Also update in `vite.config.js`**:
-- Set the `base` path to match the theme slug: `/app/themes/my-client-theme/public/build/`
+- Set the `base` path to match the theme slug: `/wp-content/themes/my-client-theme/public/build/`
 
 **Post-Deployment** (automated via `post-deploy.sh`):
 - Activates the theme if not already active
@@ -639,7 +694,7 @@ GitHub → Settings → **Secrets and variables → Actions → Secrets**:
 
 **Build Steps** (automated in workflow):
 ```bash
-npm ci                                            # Install dependencies
+npm ci --include=optional                         # Install dependencies (plus a check for Rolldown's Linux binary)
 composer install --no-dev --optimize-autoloader  # Production dependencies
 npm run build                                    # Build assets
 ```
@@ -647,11 +702,13 @@ npm run build                                    # Build assets
 ## Documentation
 
 - **[Roots Sage Documentation](https://roots.io/sage/docs/installation/)** — Complete guide for the Sage base theme including installation, file structure, and best practices
+- **[Acorn Documentation](https://roots.io/acorn/docs/)** — View composers, Blade components, and upgrade guides
 - **Module Documentation Guide**: `.github/MODULE-DOCUMENTATION-GUIDE.md` — Complete process for documenting page builder modules
 
 ## External Dependencies
 
-- **Roots Acorn** (WordPress/Laravel bridge)
+- **Roots Acorn 6** (WordPress/Laravel bridge)
 - **ACF Composer** (log1x/acf-composer) — Programmatic field definitions
-- **Frontend Libraries**: Bootstrap 5, Fancybox, Splide, Hamburgers
+- **Blade Font Awesome** (owenvoke/blade-fontawesome 3, Font Awesome 7) — Icon components such as `<x-fab-facebook-f/>`
+- **Frontend Libraries**: Bootstrap 5.3 (wrapped in `resources/css/vendor/_bootstrap.scss`), Fancybox, Splide, Hamburgers, Headroom.js
 - **Bootstrap Nav Walker**: `app/BootstrapNav.php` for WordPress menus
