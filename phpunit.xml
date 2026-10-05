@@ -16,7 +16,7 @@
          stopOnRisky="false">
     <testsuites>
         <testsuite name="Project Tests">
-            <directory suffix=".php">./tests</directory>
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
     <source>

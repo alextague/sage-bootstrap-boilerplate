@@ -32,6 +32,7 @@ class Post extends Composer
             'featured_image_positioning' => get_field('post_featured_image_positioning'),
             'previous_post' => get_previous_post(),
             'next_post' => get_next_post(),
+            'pagination' => $this->createInvokableVariable('pagination'),
         ];
     }
 
@@ -94,5 +95,17 @@ class Post extends Composer
         }
 
         return get_the_title();
+    }
+
+    /**
+     * Retrieve the pagination links.
+     */
+    public function pagination(): string
+    {
+        return wp_link_pages([
+            'echo' => 0,
+            'before' => '<p>'.__('Pages:', 'sage'),
+            'after' => '</p>',
+        ]);
     }
 }
