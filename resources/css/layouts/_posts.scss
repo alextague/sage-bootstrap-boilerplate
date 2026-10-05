@@ -1,3 +1,6 @@
+@use '../common/global';
+@use '../common/tools' as *;
+
 .post-content {
   h2 {
     @extend .sage-h3;

@@ -1,0 +1,34 @@
+// Bootstrap's breakpoint mixins, defaulting to the theme's $grid-breakpoints.
+// Loading only Bootstrap's breakpoint mixins keeps this module free of CSS output,
+// so lazy-loaded module styles can use it without duplicating Bootstrap.
+
+@use 'bootstrap/scss/mixins/breakpoints' as bs;
+@use 'variables' as *;
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  @include bs.media-breakpoint-up($name, $breakpoints) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+  @include bs.media-breakpoint-down($name, $breakpoints) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-between(
+  $lower,
+  $upper,
+  $breakpoints: $grid-breakpoints
+) {
+  @include bs.media-breakpoint-between($lower, $upper, $breakpoints) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
+  @include bs.media-breakpoint-only($name, $breakpoints) {
+    @content;
+  }
+}

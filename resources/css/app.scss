@@ -1,84 +1,61 @@
-@use 'sass:math';
+// Partials load their own dependencies with @use. Shared variables, functions and mixins
+// live in common/_tools.scss; Bootstrap and other packages are wrapped in vendor/.
+// The order below is the order the CSS is output in.
 
-@import 'common/fonts';
-@import 'common/variables';
-@import 'common/unit';
-@import 'common/mixins';
-@import 'common/helper';
+@use 'common/fonts';
+@use 'common/helper';
 
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/variables-dark';
-@import 'bootstrap/scss/maps';
-@import 'bootstrap/scss/mixins';
-@import 'bootstrap/scss/utilities';
-@import 'bootstrap/scss/root';
-@import 'bootstrap/scss/reboot';
-@import 'bootstrap/scss/type';
-@import 'bootstrap/scss/images';
-@import 'bootstrap/scss/containers';
-@import 'bootstrap/scss/grid';
-// @import "bootstrap/scss/tables";
-@import 'bootstrap/scss/forms';
-@import 'bootstrap/scss/buttons';
-@import 'bootstrap/scss/transitions';
-@import 'bootstrap/scss/dropdown';
-@import 'bootstrap/scss/button-group';
-@import 'bootstrap/scss/nav';
-@import 'bootstrap/scss/navbar';
-@import 'bootstrap/scss/card';
-@import 'bootstrap/scss/accordion';
-// @import "bootstrap/scss/breadcrumb";
-// @import "bootstrap/scss/pagination";
-// @import "bootstrap/scss/badge";
-@import 'bootstrap/scss/alert';
-// @import "bootstrap/scss/progress";
-@import 'bootstrap/scss/list-group';
-@import 'bootstrap/scss/close';
-// @import "bootstrap/scss/toasts";
-@import 'bootstrap/scss/modal';
-// @import "bootstrap/scss/tooltip";
-@import 'bootstrap/scss/popover';
-// @import "bootstrap/scss/carousel";
-// @import "bootstrap/scss/spinners";
-@import 'bootstrap/scss/offcanvas';
-// @import "bootstrap/scss/placeholders";
-@import 'bootstrap/scss/helpers';
-@import 'bootstrap/scss/utilities/api';
+// Bootstrap (see vendor/_bootstrap.scss for the included components)
+@use 'vendor/bootstrap';
 
 /**
  * Import npm dependencies
  *
- * Prefix your imports with `` to grab from node_modules/
- * @see https://github.com/webpack-contrib/sass-loader#imports
+ * Load npm packages with @use, or wrap them in vendor/ if they need configuring.
  */
-// @import "some-node-module";
+// @use "some-node-module";
 
 // Hamburgers animated menu icon
-@import 'hamburgers/_sass/hamburgers/hamburgers';
+@use 'vendor/hamburgers';
 
-/** Import theme styles */
-@import 'common/global';
-@import 'components/buttons';
-@import 'components/forms';
-@import 'components/wp-classes';
-@import 'components/cards';
+/** Theme styles */
+@use 'common/global';
+@use 'components/buttons';
+@use 'components/forms';
+@use 'components/wp-classes';
+@use 'components/cards';
 
 // Modules without JS (CSS lazy-loaded via JS for modules that have a .js file)
-@import 'modules/card-grid';
-@import 'modules/contact-form';
-@import 'modules/contact-info';
-@import 'modules/cta-banner';
-@import 'modules/image-text-50-50';
-@import 'modules/logo-grid';
-@import 'modules/freeform-content';
-@import 'modules/text';
+@use 'modules/card-grid';
+@use 'modules/contact-form';
+@use 'modules/contact-info';
+@use 'modules/cta-banner';
+@use 'modules/image-text-50-50';
+@use 'modules/logo-grid';
+@use 'modules/freeform-content';
+@use 'modules/text';
 
 // Layouts
-@import 'layouts/header';
-@import 'layouts/archive';
-@import 'layouts/footer';
-@import 'layouts/pages';
-@import 'layouts/posts';
-@import 'layouts/tinymce';
-@import 'layouts/page-headers';
+@use 'layouts/header';
+@use 'layouts/archive';
+@use 'layouts/footer';
+@use 'layouts/pages';
+@use 'layouts/posts';
+@use 'layouts/tinymce';
+@use 'layouts/page-headers';
+
+// Bootstrap's .h1–.h6, .small and .mark classes extend the matching elements. An @extend only
+// reaches the modules it's loaded after, so repeat them here to also apply to the theme's styles.
+@for $i from 1 through 6 {
+  .h#{$i} {
+    @extend h#{$i};
+  }
+}
+
+.small {
+  @extend small;
+}
+
+.mark {
+  @extend mark;
+}

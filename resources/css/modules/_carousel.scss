@@ -1,4 +1,5 @@
-@import '../common/shared';
+@use 'sass:map';
+@use '../common/tools' as *;
 
 .carousel {
   &-slider {
@@ -22,7 +23,7 @@
 
   &-title-group {
     @include media-breakpoint-up(md) {
-      max-width: map-get($container-max-widths, md);
+      max-width: map.get($container-max-widths, md);
       margin-left: auto;
       margin-right: auto;
       padding-left: var(--bs-gutter-x, 0.75rem);
@@ -30,15 +31,15 @@
     }
 
     @include media-breakpoint-up(lg) {
-      max-width: map-get($container-max-widths, lg);
+      max-width: map.get($container-max-widths, lg);
     }
 
     @include media-breakpoint-up(xl) {
-      max-width: map-get($container-max-widths, xl);
+      max-width: map.get($container-max-widths, xl);
     }
 
     @include media-breakpoint-up(xxl) {
-      max-width: map-get($container-max-widths, xxl);
+      max-width: map.get($container-max-widths, xxl);
     }
   }
 
