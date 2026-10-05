@@ -1,8 +1,3 @@
-import.meta.glob([
-  '../images/**',
-  '../fonts/**',
-]);
-
 // Import Headroom.js
 import Headroom from 'headroom.js';
 

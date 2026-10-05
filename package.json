@@ -2,7 +2,7 @@
   "name": "sage",
   "private": true,
   "engines": {
-    "node": ">=20.0.0"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "type": "module",
   "scripts": {
@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^7.0.2",
-    "@roots/vite-plugin": "^1.0.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "autoprefixer": "^10.4.23",
@@ -37,7 +36,7 @@
     "eslint-plugin-import": "^2.32.0",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.3.0",
-    "laravel-vite-plugin": "^2.0.0",
+    "laravel-vite-plugin": "^3.2.0",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.7.4",
     "purgecss-with-wordpress": "^7.0.2",
@@ -45,7 +44,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard-scss": "^14.0.0",
     "stylelint-prettier": "^5.0.3",
-    "vite": "^7.0.0"
+    "vite": "^8.3.2"
   },
   "dependencies": {
     "@fancyapps/ui": "^6.1.7",

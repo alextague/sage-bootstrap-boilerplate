@@ -28,11 +28,11 @@ Sage brings proper PHP templating and modern JavaScript tooling to WordPress the
 
 Make sure all dependencies have been installed before moving on:
 
-- [Acorn](https://roots.io/acorn/docs/installation/) v5
+- [Acorn](https://roots.io/acorn/docs/installation/) v6
 - [WordPress](https://wordpress.org/) >= 6.6.1
 - [PHP](https://secure.php.net/manual/en/install.php) >= 8.4
 - [Composer](https://getcomposer.org/download/)
-- [Node.js](http://nodejs.org/) >= 20
+- [Node.js](http://nodejs.org/) ^20.19 or >= 22.12
 
 ## Theme installation
 
@@ -125,7 +125,6 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │       ├── layouts/      # → Layout styles
 │       ├── modules/      # → Module styles
 │       ├── app.scss/     # → App stylesheet (import all stylesheets)
-│       ├── editor.scss/  # → Editor styles
 │   └── views/            # → Theme templates
 │       ├── components/   # → Component templates
 │       ├── forms/        # → Form templates

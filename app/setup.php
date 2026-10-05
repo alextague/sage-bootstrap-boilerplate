@@ -6,56 +6,29 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Vite;
-
 /**
- * Inject styles into the block editor.
+ * Disable the block editor for posts and widgets.
  *
- * @return array
+ * @link https://developer.wordpress.org/reference/hooks/use_block_editor_for_post_type/
  */
-add_filter('block_editor_settings_all', function ($settings) {
-    $style = Vite::asset('resources/css/editor.scss');
-
-    $settings['styles'][] = [
-        'css' => "@import url('{$style}')",
-    ];
-
-    return $settings;
-});
+add_filter('use_block_editor_for_post_type', '__return_false', 100);
+add_filter('use_widgets_block_editor', '__return_false');
 
 /**
- * Inject scripts into the block editor.
+ * Remove block and global styles from the front end.
  *
  * @return void
  */
-add_filter('admin_head', function () {
-    if (! get_current_screen()?->is_block_editor()) {
-        return;
-    }
+add_action('wp_enqueue_scripts', function () {
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('classic-theme-styles');
+    wp_dequeue_style('global-styles');
+    wp_dequeue_style('core-block-supports');
+}, 100);
 
-    $dependencies = json_decode(Vite::content('editor.deps.json'));
-
-    foreach ($dependencies as $dependency) {
-        if (! wp_script_is($dependency)) {
-            wp_enqueue_script($dependency);
-        }
-    }
-
-    echo Vite::withEntryPoints([
-        'resources/js/editor.js',
-    ])->toHtml();
-});
-
-/**
- * Use the generated theme.json file.
- *
- * @return string
- */
-add_filter('theme_file_path', function ($path, $file) {
-    return $file === 'theme.json'
-        ? public_path('build/assets/theme.json')
-        : $path;
-}, 10, 2);
+remove_action('wp_enqueue_scripts', 'wp_enqueue_global_styles');
+remove_action('wp_footer', 'wp_enqueue_global_styles', 1);
 
 /**
  * Register the initial theme setup.
