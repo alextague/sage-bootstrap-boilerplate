@@ -69,7 +69,7 @@ jobs:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
           WPE_ENV: ${{ vars.WPE_ENV_DEV }}
           REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
 
       - name: Rebuild Acorn cache
         env:
@@ -117,7 +117,7 @@ jobs:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
           WPE_ENV: ${{ vars.WPE_ENV_PRODUCTION }}
           REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
 
       - name: Rebuild Acorn cache
         env:
@@ -165,7 +165,7 @@ jobs:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
           WPE_ENV: ${{ vars.WPE_ENV_STAGING }}
           REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
 
       - name: Rebuild Acorn cache
         env:
@@ -224,7 +224,7 @@ jobs:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
           WPE_ENV: ${{ steps.resolve-env.outputs.wpe_env }}
           REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
 
       - name: Rebuild Acorn cache
         env:
