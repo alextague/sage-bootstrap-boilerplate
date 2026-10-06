@@ -28,13 +28,36 @@ $color-mid-blue: #1f5889;
 $color-blue-ghost: #ecf5fc;
 $color-blue-medium: #4f98f4;
 $color-blue-sky: #90c3f8;
+$color-white: #fff;
+$color-black: #000;
 
 // COLORS
 // Add project-specific colors here as $color-{appearance}
 
-$white: white;
-$black: black;
+// Aliases used by Bootstrap (see vendor/_bootstrap.scss), Hamburgers and existing partials
+$white: $color-white;
+$black: $color-black;
 $error: red;
+
+// THEME COLOR UTILITIES
+// Every color in this map gets .color-{name}, .{name}-color, .bg-color-{name} and
+// .border-color-{name} utility classes (generated in _global.scss). Add each project
+// color here using the same name as its $color-{appearance} variable.
+$colors-map: (
+  'white': $color-white,
+  'black': $color-black,
+  'dark-blue': $color-dark-blue,
+  'blue': $color-blue,
+  'blue-light': $color-blue-light,
+  'blue-pale': $color-blue-pale,
+  'blue-ice': $color-blue-ice,
+  'mid-blue': $color-mid-blue,
+  'blue-ghost': $color-blue-ghost,
+  'blue-medium': $color-blue-medium,
+  'blue-sky': $color-blue-sky,
+);
+
+// FONTS
 $primary-font: 'Open Sans';
 $secondary-font: 'EB Garamond';
 
