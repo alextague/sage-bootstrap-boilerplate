@@ -1,3 +1,5 @@
+@use '../vendor/bootstrap';
+
 .comment-list {
   @extend .list-unstyled;
 }

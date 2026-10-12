@@ -1,3 +1,5 @@
+@use '../common/tools' as *;
+
 .contact-info {
   .contact-info-column {
     border-right: 1px solid $color-blue-light;

@@ -10,6 +10,15 @@ export default defineConfig({
   base: '/wp-content/themes/sage-vite/public/build/',
   css: {
     postcss: './postcss.config.js',
+    preprocessorOptions: {
+      scss: {
+        // Hide deprecation warnings from inside npm packages (Bootstrap 5 and Hamburgers aren't
+        // written for Sass modules). The theme's only @import is the Bootstrap wrapper in
+        // resources/css/vendor/_bootstrap.scss, so the import deprecation is silenced for it.
+        quietDeps: true,
+        silenceDeprecations: ['import'],
+      },
+    },
   },
   plugins: [
     laravel({

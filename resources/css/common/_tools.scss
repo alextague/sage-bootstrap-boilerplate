@@ -1,0 +1,8 @@
+// Shared variables, functions and mixins for the theme's SCSS.
+// Outputs no CSS, so it's safe to use in any partial, including modules lazy-loaded via JS:
+// @use '../common/tools' as *;
+
+@forward 'variables';
+@forward 'unit';
+@forward 'mixins';
+@forward 'breakpoints';

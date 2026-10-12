@@ -1,0 +1,17 @@
+// Hamburgers animated menu icon, configured from the theme variables.
+// https://jonsuh.com/hamburgers/
+
+@use '../common/variables' as theme;
+@use 'hamburgers/_sass/hamburgers/hamburgers' with (
+  $hamburger-padding-x: theme.$hamburger-padding-x,
+  $hamburger-padding-y: theme.$hamburger-padding-y,
+  $hamburger-layer-width: theme.$hamburger-layer-width,
+  $hamburger-layer-height: theme.$hamburger-layer-height,
+  $hamburger-layer-spacing: theme.$hamburger-layer-spacing,
+  $hamburger-layer-color: theme.$hamburger-layer-color,
+  $hamburger-layer-border-radius: theme.$hamburger-layer-border-radius,
+  $hamburger-hover-opacity: theme.$hamburger-hover-opacity,
+  $hamburger-hover-use-filter: theme.$hamburger-hover-use-filter,
+  $hamburger-hover-filter: theme.$hamburger-hover-filter,
+  $hamburger-types: theme.$hamburger-types
+);

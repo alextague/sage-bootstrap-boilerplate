@@ -1,3 +1,7 @@
+@use '../vendor/bootstrap';
+@use '../common/global';
+@use '../common/tools' as *;
+
 header.sage-header {
   position: relative;
   z-index: 99;
@@ -105,16 +109,77 @@ header.sage-header {
   height: 100vh;
   overflow-y: auto;
 
-  ul {
+  // Menu rendered by <x-nav-menu> with the BootstrapNav walker
+  .mobile-nav {
     @extend .list-unstyled;
 
     li {
-      padding-left: 10px;
+      padding-left: rem-calc(10px);
+    }
 
-      a {
-        text-decoration: none;
+    .nav-link,
+    .dropdown-item {
+      padding: 0;
+      text-decoration: none;
+      color: $color-blue;
+      @extend .sage-font-md;
+    }
+
+    .nav-item > .nav-link {
+      margin-bottom: rem-calc(15px);
+    }
+
+    // Parent items toggle their submenu instead of navigating
+    .dropdown-toggle {
+      &::after {
+        content: '';
+        border: none;
+        height: 7px;
+        width: 10px;
+        background-image: url('@images/down-arrow-small.svg');
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+        margin-left: rem-calc(12px);
+        vertical-align: middle;
+        transition: transform 0.3s ease;
+      }
+
+      &.show::after {
+        transform: rotate(180deg);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-blue;
+        outline-offset: 2px;
+      }
+    }
+
+    // Open submenus inline instead of as floating dropdowns
+    .dropdown-menu {
+      position: static;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      padding: 0;
+      margin: 0 0 rem-calc(15px) !important;
+
+      &.show {
+        position: relative !important;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        gap: rem-calc(15px);
+      }
+    }
+
+    .dropdown-item {
+      &.active,
+      &:hover,
+      &:focus,
+      &:active {
+        background: none;
         color: $color-blue;
-        @extend .sage-font-md;
       }
     }
   }

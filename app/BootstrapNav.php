@@ -43,6 +43,13 @@ class BootstrapNav extends Walker_Nav_Menu
      */
     protected $archive;
 
+    /**
+     * Is the current request a search?
+     *
+     * @var bool
+     */
+    protected $is_search;
+
     public function __construct()
     {
         $cpt = get_post_type();

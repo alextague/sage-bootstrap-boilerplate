@@ -120,11 +120,12 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   ├── js/               # → Theme javascript
 │       ├── modules/      # → Module javascript (imported dynamically, file name must match the module ACF layout name with dashes, i.e. example-module.js)
 │   ├── css/              # → Theme stylesheets
-│       ├── common/       # → Global styles, variables, and mixins
+│       ├── common/       # → Global styles, variables, and mixins (`@use '../common/tools' as *;` for variables, functions and mixins)
 │       ├── components/   # → Component styles
 │       ├── layouts/      # → Layout styles
 │       ├── modules/      # → Module styles
-│       ├── app.scss/     # → App stylesheet (import all stylesheets)
+│       ├── vendor/       # → Bootstrap and Hamburgers wrappers, configured from the theme variables
+│       ├── app.scss/     # → App stylesheet (loads all stylesheets with @use)
 │   └── views/            # → Theme templates
 │       ├── components/   # → Component templates
 │       ├── forms/        # → Form templates
