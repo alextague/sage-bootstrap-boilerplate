@@ -478,6 +478,13 @@ class YourModule extends Composer
 - `srcset-sizes` sets the `sizes` attribute (default `100vw`); it's only output when the image has a `srcset`. Pass a narrower value for images that don't span the viewport (e.g. `(min-width: 992px) 50vw, 100vw`).
 - Both components must accept a `$srcsetSizes` constructor parameter and declare a public `$sizes` property — `tests/Unit/ResponsiveImageComponentsTest.php` checks this.
 
+### Navigation Menus
+- Render every WordPress menu with `<x-nav-menu menu-location="..."/>` (`app/View/Components/NavMenu.php`), which runs `wp_nav_menu()` with the `BootstrapNav` walker. Don't build menus by hand from `wp_get_nav_menu_items()`.
+- Options: `menu-class` (default `navbar-nav`), `depth` (default `2`), `walker-class` (a `Walker_Nav_Menu` subclass; invalid classes fall back to `BootstrapNav`), `:use-walker="false"`, and `nav-class`/`aria-label` to wrap the menu in a `<nav>` element.
+- Nothing is output when no menu is assigned to the location.
+- The desktop menu is in the header's `<nav aria-label="Primary navigation">`. The mobile offcanvas menu uses the same location with `menu-class="mobile-nav" aria-label="Mobile navigation"`; its styles are under `#mobile_menu` in `resources/css/layouts/_header.scss`.
+- `BootstrapNav` turns parent items into click-to-toggle dropdowns (`data-bs-toggle="dropdown"`), so parent items don't navigate. Bootstrap's dropdown behaviour is loaded through the `bootstrap` import in `resources/js/app.js`.
+
 ### Asset References
 **In Blade templates**: Use `Vite::asset()` method for images and static assets:
 ```blade

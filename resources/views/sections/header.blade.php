@@ -28,6 +28,6 @@
     </div>
   </div>
   <div class="mobile-menu-wrapper">
-    <x-mobile-nav menu-location="primary_navigation"/>
+    <x-nav-menu menu-location="primary_navigation" menu-class="mobile-nav" aria-label="Mobile navigation"/>
   </div>
 </div>

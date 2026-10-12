@@ -39,3 +39,58 @@ if (! function_exists('get_post_meta')) {
         return $GLOBALS['wp_stubs']['alt'] ?? '';
     }
 }
+
+if (! function_exists('has_nav_menu')) {
+    function has_nav_menu($location)
+    {
+        return $GLOBALS['wp_stubs']['has_nav_menu'] ?? false;
+    }
+}
+
+if (! function_exists('wp_nav_menu')) {
+    // Records the arguments it was called with in $GLOBALS['wp_stubs']['wp_nav_menu_args']
+    function wp_nav_menu($args = [])
+    {
+        $GLOBALS['wp_stubs']['wp_nav_menu_args'] = $args;
+
+        if (($args['echo'] ?? true) !== false) {
+            echo '<ul></ul>';
+
+            return null;
+        }
+
+        return '<ul class="'.$args['menu_class'].'"></ul>';
+    }
+}
+
+if (! function_exists('get_post_type')) {
+    function get_post_type($post = null)
+    {
+        return $GLOBALS['wp_stubs']['post_type'] ?? 'page';
+    }
+}
+
+if (! function_exists('get_post_types')) {
+    function get_post_types($args = [], $output = 'names', $operator = 'and')
+    {
+        return [];
+    }
+}
+
+if (! function_exists('get_post_type_archive_link')) {
+    function get_post_type_archive_link($post_type)
+    {
+        return false;
+    }
+}
+
+if (! function_exists('is_search')) {
+    function is_search()
+    {
+        return false;
+    }
+}
+
+if (! class_exists('Walker_Nav_Menu')) {
+    class Walker_Nav_Menu {}
+}
