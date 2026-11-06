@@ -1,9 +1,11 @@
+@use '../common/tools' as *;
+
 .card {
   &.card-bio,
   &.card-single {
     border: none;
     border-radius: none;
-    max-width: 500px;
+    max-width: rem-calc(500px);
     margin-left: auto;
     margin-right: auto;
 
@@ -15,7 +17,7 @@
 
     .separator {
       height: 2px;
-      width: 81px;
+      width: rem-calc(81px);
     }
   }
 }

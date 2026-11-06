@@ -2,8 +2,8 @@
 
 .logo-grid {
   .logo {
-    height: 380px;
-    border-radius: 4px;
+    height: rem-calc(380px);
+    border-radius: rem-calc(4px);
     transition: background 0.3s ease;
 
     &:hover {
@@ -11,7 +11,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      height: 150px;
+      height: rem-calc(150px);
     }
 
     img {

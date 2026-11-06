@@ -8,14 +8,14 @@
 
   h2,
   h3 {
-    margin-bottom: 35px;
+    margin-bottom: rem-calc(35px);
   }
 
   blockquote {
-    padding-left: 60px;
-    padding-bottom: 15px;
+    padding-left: rem-calc(60px);
+    padding-bottom: rem-calc(15px);
     border-left: 5px solid $color-blue;
-    margin-bottom: 75px;
+    margin-bottom: rem-calc(75px);
 
     p {
       font-size: rem-calc(55px);
@@ -25,14 +25,14 @@
     }
 
     @include media-breakpoint-up(md) {
-      padding-top: 25px;
-      padding-bottom: 45px;
-      margin-bottom: 95px;
+      padding-top: rem-calc(25px);
+      padding-bottom: rem-calc(45px);
+      margin-bottom: rem-calc(95px);
     }
   }
 
   figure {
-    margin: 95px auto 85px;
+    margin: rem-calc(95px) auto rem-calc(85px);
     display: block;
     max-width: 100%;
     width: 100%;
@@ -43,15 +43,15 @@
     }
 
     figcaption {
-      margin-top: 20px;
-      font-size: 14px;
-      line-height: 21px;
+      margin-top: rem-calc(20px);
+      font-size: rem-calc(14px);
+      line-height: 1.5; // 21px / 14px
       font-family: $primary-font;
       color: $color-blue-light;
     }
   }
 
   p {
-    margin-bottom: 30px;
+    margin-bottom: rem-calc(30px);
   }
 }

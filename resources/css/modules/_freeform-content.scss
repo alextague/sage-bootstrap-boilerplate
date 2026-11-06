@@ -15,10 +15,10 @@
   }
 
   blockquote {
-    padding-left: 60px;
-    padding-bottom: 15px;
+    padding-left: rem-calc(60px);
+    padding-bottom: rem-calc(15px);
     border-left: 5px solid $color-dark-blue;
-    margin-bottom: 75px;
+    margin-bottom: rem-calc(75px);
 
     p {
       color: $color-mid-blue;
@@ -29,9 +29,9 @@
     }
 
     @include media-breakpoint-up(md) {
-      padding-top: 25px;
-      padding-bottom: 30px;
-      margin-bottom: 50px;
+      padding-top: rem-calc(25px);
+      padding-bottom: rem-calc(30px);
+      margin-bottom: rem-calc(50px);
     }
   }
 

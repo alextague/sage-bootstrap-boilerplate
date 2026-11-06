@@ -41,7 +41,7 @@ p {
   font-family: $primary-font;
   font-size: rem-calc(18px);
   line-height: 1.44444;
-  margin-bottom: 20px;
+  margin-bottom: rem-calc(20px);
 }
 
 // a:not(.btn) {
@@ -82,7 +82,7 @@ h3,
 .sage-h3 {
   font-size: rem-calc(24px);
   line-height: 1.166667;
-  margin-bottom: 20px;
+  margin-bottom: rem-calc(20px);
 }
 
 a {
