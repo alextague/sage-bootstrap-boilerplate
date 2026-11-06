@@ -1,3 +1,5 @@
+@use '../common/tools' as *;
+
 body#tinymce {
-  margin: 12px !important;
+  margin: rem-calc(12px) !important;
 }

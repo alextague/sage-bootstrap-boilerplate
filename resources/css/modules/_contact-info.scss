@@ -11,8 +11,8 @@
     @include media-breakpoint-down(md) {
       border-right: none;
       border-top: 1px solid $color-blue-light;
-      padding-top: 20px;
-      margin-top: 20px;
+      padding-top: rem-calc(20px);
+      margin-top: rem-calc(20px);
     }
   }
 }

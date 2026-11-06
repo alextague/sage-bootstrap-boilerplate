@@ -6,7 +6,7 @@
     background: none;
     border: 1px solid $white;
     border-radius: 0;
-    padding: 15px;
+    padding: rem-calc(15px);
     font-size: rem-calc(21px);
     line-height: 1.2381;
     text-transform: uppercase;
@@ -26,14 +26,14 @@
 
   &.btn-primary {
     width: 100%;
-    max-width: 290px;
+    max-width: rem-calc(290px);
   }
 
   &.btn-secondary {
     border-color: $color-blue-medium;
     color: $color-blue-medium;
     width: 100%;
-    max-width: 473px;
+    max-width: rem-calc(473px);
 
     .hover-icon {
       display: none;
@@ -59,13 +59,13 @@
     border: none;
     color: inherit;
     font-weight: 700;
-    padding-top: 10px;
+    padding-top: rem-calc(10px);
 
     &::before {
       content: '';
       position: absolute;
       top: 0;
-      width: 37px;
+      width: rem-calc(37px);
       height: 2px;
       background: $color-blue-sky;
       transition: all 0.3s ease;
@@ -82,11 +82,11 @@
   &.btn-modal-close {
     padding: 0;
     position: absolute;
-    top: 60px;
-    right: 75px;
+    top: rem-calc(60px);
+    right: rem-calc(75px);
     background: url('@images/btn-close.svg');
-    width: 22px;
-    height: 22px;
+    width: rem-calc(22px);
+    height: rem-calc(22px);
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;

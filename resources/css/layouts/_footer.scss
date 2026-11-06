@@ -13,7 +13,7 @@
         li.menu-item {
           display: inline-block;
           position: relative;
-          margin-right: 55px;
+          margin-right: rem-calc(55px);
 
           &:last-child {
             margin-right: 0;

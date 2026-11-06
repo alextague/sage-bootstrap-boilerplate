@@ -40,16 +40,16 @@
 
   .container {
     z-index: 1;
-    padding-top: 235px;
-    padding-bottom: 75px;
+    padding-top: rem-calc(235px);
+    padding-bottom: rem-calc(75px);
 
     .share-links {
-      margin-left: -14px;
-      margin-right: -14px;
+      margin-left: rem-calc(-14px);
+      margin-right: rem-calc(-14px);
 
       .share-item {
-        padding-left: 14px;
-        padding-right: 14px;
+        padding-left: rem-calc(14px);
+        padding-right: rem-calc(14px);
 
         a {
           color: $white;
