@@ -674,9 +674,11 @@ The theme deploys automatically to WPEngine when code is pushed to `main` (produ
 
 **Deployment Process**:
 1. Push/merge to `main` or `develop` (or a `deploy-dev` label, or a manual run) triggers the GitHub Actions workflow
-2. Workflow builds assets (`npm run build`) and installs production Composer dependencies
-3. Deploys theme via rsync to the configured WPEngine environment. Development files (`.github/`, `tests/`, `CLAUDE.md`, `.claude/`, lint configs, etc.) are excluded.
-4. Runs `.github/scripts/post-deploy.sh` to activate theme (if needed) and rebuild Acorn caches
+2. The `build` job builds the theme once: installs production Composer dependencies, builds assets (`npm run build`) and uploads the packaged theme as an artifact
+3. The `deploy` job rsyncs that build to the configured WPEngine environment. Development files (`.github/`, `tests/`, `CLAUDE.md`, `.claude/`, `auth.json`, lint configs, etc.) are excluded.
+4. Runs `.github/scripts/post-deploy.sh` to rebuild Acorn caches (only while this theme is the active theme)
+
+**The workflow never activates the theme.** Activate it in WP Admin → Appearance → Themes (or `wp theme activate <slug>`), which keeps widget assignments, then **rerun the workflow** for that install so `post-deploy.sh` builds the Acorn caches. Until then the script reports the active theme and skips the caches.
 
 **Per-Project Setup** (set once in GitHub → Settings, no workflow file edits needed):
 
@@ -701,10 +703,13 @@ GitHub → Settings → **Secrets and variables → Actions → Secrets**:
 **Also update in `vite.config.js`**:
 - Set the `base` path to match the theme slug: `/wp-content/themes/my-client-theme/public/build/`
 
-**Post-Deployment** (automated via `post-deploy.sh`):
-- Activates the theme if not already active
-- Purges Varnish cache
+**Post-Deployment** (automated via `post-deploy.sh`, when this theme is active):
 - Runs `wp acorn optimize:clear` and `wp acorn view:cache`
+- Purges Varnish cache
+
+**WP Engine won't let a logged-out request write `.php` files.** Acorn's compiled Blade views (`wp-content/cache/acorn/framework/`) are `.php`, so they must come from `view:cache` over SSH. Never generate a view at render time: no `<x-dynamic-component>`, no blade-icons component tags (`<x-fab-…/>`, `<x-icon …/>`) and no `Blade::render()`. Use the `svg()` helper for icons (`{!! svg('fab-facebook-f')->toHtml() !!}`). Otherwise visitors get WordPress's critical error page after a deploy, which nobody browsing logged in sees. `tests/js/styles/runtime-views.test.js` guards this.
+
+Don't use `exit` in the remote (SSH heredoc) part of `post-deploy.sh`: WP Engine's SSH gateway returned status 1 for a session that ended with `exit 0`, which failed the deploy.
 
 **Build Steps** (automated in workflow):
 ```bash
@@ -723,6 +728,6 @@ npm run build                                    # Build assets
 
 - **Roots Acorn 6** (WordPress/Laravel bridge)
 - **ACF Composer** (log1x/acf-composer) — Programmatic field definitions
-- **Blade Font Awesome** (owenvoke/blade-fontawesome 3, Font Awesome 7) — Icon components such as `<x-fab-facebook-f/>`
+- **Blade Font Awesome** (owenvoke/blade-fontawesome 3, Font Awesome 7) — Icons via the `svg()` helper, such as `svg('fab-facebook-f')` (not the `<x-fab-…/>` component tags; see **Deployment**)
 - **Frontend Libraries**: Bootstrap 5.3 (wrapped in `resources/css/vendor/_bootstrap.scss`), Fancybox, Splide, Hamburgers, Headroom.js
 - **Bootstrap Nav Walker**: `app/BootstrapNav.php` for WordPress menus
