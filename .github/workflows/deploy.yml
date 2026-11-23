@@ -10,8 +10,20 @@ name: Deploy to WPEngine
 # And in GitHub → Settings → Secrets:
 #   WPE_SSHG_KEY_PRIVATE  (WPEngine Git Push SSH private key)
 #
-# Every deploy job is skipped until THEME_SLUG is set, so the
+# Every job is skipped until THEME_SLUG is set, so the
 # boilerplate (and new projects) don't attempt to deploy.
+#
+# Flow
+#   Push / merge to develop               → build, deploy to Staging
+#   Push / merge to main                  → build, deploy to Production
+#   Pull request labelled deploy-dev      → build, deploy to Dev
+#   Actions tab → "Run workflow"          → build, deploy to the chosen install
+#
+# The theme is built once (the "build" job) and that build is what's
+# deployed. The workflow never activates the theme: activate it in
+# WP Admin → Appearance → Themes, then rerun the workflow so
+# post-deploy.sh builds Acorn's caches (it skips them while another
+# theme is active). See .github/scripts/post-deploy.sh.
 # ─────────────────────────────────────────────────────────────
 
 on:
@@ -32,206 +44,140 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
+permissions:
+  contents: read
+
 jobs:
-  deploy-dev:
-    if: vars.THEME_SLUG != '' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && contains(github.event.pull_request.labels.*.name, 'deploy-dev')
-    runs-on: ubuntu-22.04
-
+  # Works out which install this run deploys to; an empty target skips the build and deploy.
+  target:
+    if: vars.THEME_SLUG != ''
+    runs-on: ubuntu-24.04
+    outputs:
+      environment: ${{ steps.resolve.outputs.environment }}
+      wpe_env: ${{ steps.resolve.outputs.wpe_env }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.12.0'
-          cache: 'npm'
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4.10'
-          tools: composer
-
-      - name: Install Node dependencies
-        run: npm ci --include=optional
-
-      - name: Ensure Linux Rolldown binary
-        run: |
-          node -e "require.resolve('@rolldown/binding-linux-x64-gnu')" || npm i --no-save @rolldown/binding-linux-x64-gnu
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader --prefer-dist
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Deploy to WPEngine Dev
-        uses: wpengine/github-action-wpe-site-deploy@v3
-        with:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_DEV }}
-          REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
-
-      - name: Rebuild Acorn cache
+      - name: Resolve target environment
+        id: resolve
         env:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_DEV }}
-          THEME_SLUG: ${{ vars.THEME_SLUG }}
-        run: bash .github/scripts/post-deploy.sh
-
-  deploy-production:
-    if: vars.THEME_SLUG != '' && github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.12.0'
-          cache: 'npm'
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4.10'
-          tools: composer
-
-      - name: Install Node dependencies
-        run: npm ci --include=optional
-
-      - name: Ensure Linux Rolldown binary
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+          INPUT_ENV: ${{ github.event.inputs.environment }}
+          SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+          DEPLOY_DEV_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'deploy-dev') }}
+          WPE_ENV_DEV: ${{ vars.WPE_ENV_DEV }}
+          WPE_ENV_STAGING: ${{ vars.WPE_ENV_STAGING }}
+          WPE_ENV_PRODUCTION: ${{ vars.WPE_ENV_PRODUCTION }}
         run: |
-          node -e "require.resolve('@rolldown/binding-linux-x64-gnu')" || npm i --no-save @rolldown/binding-linux-x64-gnu
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader --prefer-dist
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Deploy to WPEngine Production
-        uses: wpengine/github-action-wpe-site-deploy@v3
-        with:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_PRODUCTION }}
-          REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
-
-      - name: Rebuild Acorn cache
-        env:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_PRODUCTION }}
-          THEME_SLUG: ${{ vars.THEME_SLUG }}
-        run: bash .github/scripts/post-deploy.sh
-
-  deploy-staging:
-    if: vars.THEME_SLUG != '' && github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.12.0'
-          cache: 'npm'
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4.10'
-          tools: composer
-
-      - name: Install Node dependencies
-        run: npm ci --include=optional
-
-      - name: Ensure Linux Rolldown binary
-        run: |
-          node -e "require.resolve('@rolldown/binding-linux-x64-gnu')" || npm i --no-save @rolldown/binding-linux-x64-gnu
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader --prefer-dist
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Deploy to WPEngine Staging
-        uses: wpengine/github-action-wpe-site-deploy@v3
-        with:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_STAGING }}
-          REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
-
-      - name: Rebuild Acorn cache
-        env:
-          WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ vars.WPE_ENV_STAGING }}
-          THEME_SLUG: ${{ vars.THEME_SLUG }}
-        run: bash .github/scripts/post-deploy.sh
-
-  deploy-manual:
-    if: vars.THEME_SLUG != '' && github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22.12.0'
-          cache: 'npm'
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4.10'
-          tools: composer
-
-      - name: Install Node dependencies
-        run: npm ci --include=optional
-
-      - name: Ensure Linux Rolldown binary
-        run: |
-          node -e "require.resolve('@rolldown/binding-linux-x64-gnu')" || npm i --no-save @rolldown/binding-linux-x64-gnu
-
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader --prefer-dist
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Resolve WPEngine environment
-        id: resolve-env
-        run: |
-          if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
-            echo "wpe_env=${{ vars.WPE_ENV_DEV }}" >> $GITHUB_OUTPUT
-          elif [ "${{ github.event.inputs.environment }}" = "staging" ]; then
-            echo "wpe_env=${{ vars.WPE_ENV_STAGING }}" >> $GITHUB_OUTPUT
-          else
-            echo "wpe_env=${{ vars.WPE_ENV_PRODUCTION }}" >> $GITHUB_OUTPUT
+          environment=''
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            environment="$INPUT_ENV"
+          elif [ "$EVENT" = "push" ] && [ "$REF" = "refs/heads/main" ]; then
+            environment=production
+          elif [ "$EVENT" = "push" ] && [ "$REF" = "refs/heads/develop" ]; then
+            environment=staging
+          elif [ "$EVENT" = "pull_request" ] && [ "$SAME_REPO" = "true" ] && [ "$DEPLOY_DEV_LABEL" = "true" ]; then
+            environment=dev
           fi
 
-      - name: Deploy to WPEngine
+          case "$environment" in
+            dev) wpe_env="$WPE_ENV_DEV" ;;
+            staging) wpe_env="$WPE_ENV_STAGING" ;;
+            production) wpe_env="$WPE_ENV_PRODUCTION" ;;
+            *) wpe_env='' ;;
+          esac
+
+          if [ -n "$environment" ] && [ -z "$wpe_env" ]; then
+            echo "::error::No WP Engine install is set for $environment (repository variable WPE_ENV_${environment^^})."
+            exit 1
+          fi
+
+          echo "environment=$environment" >> "$GITHUB_OUTPUT"
+          echo "wpe_env=$wpe_env" >> "$GITHUB_OUTPUT"
+          echo "Target: ${environment:-none} ${wpe_env}"
+
+  build:
+    needs: target
+    if: needs.target.outputs.environment != ''
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'npm'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer
+          coverage: none
+
+      - name: Install Node dependencies
+        run: npm ci --include=optional
+
+      - name: Ensure Linux Rolldown binary
+        run: |
+          node -e "require.resolve('@rolldown/binding-linux-x64-gnu')" || npm i --no-save @rolldown/binding-linux-x64-gnu
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Package theme
+        run: |
+          mkdir -p "$RUNNER_TEMP/theme"
+          tar --exclude=./node_modules --exclude=./.git --exclude=./.github --exclude=./tests \
+            --exclude=./CLAUDE.md --exclude=./.claude --exclude=./auth.json --exclude=./.env \
+            -cf - . | tar -xf - -C "$RUNNER_TEMP/theme"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme
+          path: ${{ runner.temp }}/theme
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    needs: [target, build]
+    runs-on: ubuntu-24.04
+    environment:
+      name: ${{ needs.target.outputs.environment }}
+    concurrency:
+      group: deploy-${{ needs.target.outputs.environment }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: theme
+          path: theme
+
+      - name: Deploy to WPEngine (${{ needs.target.outputs.environment }})
         uses: wpengine/github-action-wpe-site-deploy@v3
         with:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ steps.resolve-env.outputs.wpe_env }}
+          WPE_ENV: ${{ needs.target.outputs.wpe_env }}
+          SRC_PATH: theme/
           REMOTE_PATH: "wp-content/themes/${{ vars.THEME_SLUG }}/"
-          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/
+          FLAGS: -azvr --inplace --delete --exclude=node_modules/ --exclude=.git/ --exclude=.github/ --exclude=tests/ --exclude=.stylelintrc --exclude=eslint.config.js --exclude=.env --exclude=.env.* --exclude=.editorconfig --exclude=.gitignore --exclude=.gitattributes --exclude=README.md --exclude=CLAUDE.md --exclude=.claude/ --exclude=auth.json
+          CACHE_CLEAR: true
+
+      # The theme artifact leaves .github out, so check out just the script.
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+          path: repo
 
       - name: Rebuild Acorn cache
         env:
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
-          WPE_ENV: ${{ steps.resolve-env.outputs.wpe_env }}
+          WPE_ENV: ${{ needs.target.outputs.wpe_env }}
           THEME_SLUG: ${{ vars.THEME_SLUG }}
-        run: bash .github/scripts/post-deploy.sh
+        run: bash repo/.github/scripts/post-deploy.sh
