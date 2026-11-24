@@ -1,9 +1,11 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import laravel from 'laravel-vite-plugin'
 
-// Set APP_URL if it doesn't exist for Laravel Vite plugin
+// Set APP_URL for the Laravel Vite plugin, which uses it for the dev server's allowed
+// CORS origin. Read it from .env (where the README says to set it); the placeholder is
+// only a last resort. It must match the site URL exactly, including https.
 if (! process.env.APP_URL) {
-  process.env.APP_URL = 'http://example.test';
+  process.env.APP_URL = loadEnv('development', process.cwd(), '').APP_URL || 'http://example.test';
 }
 
 export default defineConfig({
